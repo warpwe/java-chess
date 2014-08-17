@@ -1,0 +1,45 @@
+This file list the major changes in between releases
+====================================================
+
+Changes for 0.1.0 alpha 1
+-------------------------
+This was the first release and it contained just a rough GUI to play some simple
+moves. The engine was very incomplete and buggy.
+
+
+Changes for 0.1.0 alpha 2
+-------------------------
+This changelog was started after the release of alpha 2, so I have to write this
+from the top of my head.
+
+- Added code for timers, that actually reflect who is about to move, although there's
+  no event triggered when the time is over.
+- Lots of bugfixes in the engine, especially in the PlyGenerator, where most of the
+  plies should be computed accurately now.
+- Check, checkmate and draw (not yet for triple repetition of a board) detection 
+  added to the GameController, so the game is stopped then.
+- Better piece set and board colors.
+- About box added.
+- First hashtable version with associated menu item added.
+- Some initial code to save and load PGN files.
+
+Changes for 0.1.0 alpha 3
+-------------------------
+
+- 'Thinking' and 'Player's turn' displayed depending on who is about to move.
+- Started PGN header info for file save.
+- Started opening book functionality.
+- Reset method for entire game.
+- Started permanent brain functionality.
+- Improved code to save and load PGN files.
+- Fixed bug in timers.
+- Changed direction of the timers.
+- Made minimax more responsive to timeout.
+- Added default values for search time and hash size. Default search time is 5sec fix per move, hash size is 10,000 entries.
+- Splitted the search time menu into two sub-menues: fix and average search time.
+- Added the display of the search time and hash size to the status panel.
+- Added shortcut <ALT>-<E> to reach the edit menu
+- Added shortcut <S> to call the setup dialog from the edit menu
+- Dialog for setup/edit position designed. Dialog call works, ToDo: implement functions
+- Quiescence search added (read: the search tree is extended, if the last ply changed the
+  game position significantly. This is the case, if it's a capture, a check or a pawn promotion).

@@ -1,0 +1,9 @@
+                    Java Chess
+
+              is a chess interface
+
+                  written in Java
+
+                      (c) 2003
+
+We hope you enjoy to use our little toy...

@@ -1,0 +1,14 @@
+We would like to thank the following people:
+
+- Paul Harrington for his tips on the quiescence
+  search.
+- François Dominic Laramée for his great article on
+  search strategies
+  ( http://www.gamedev.net/reference/articles/article1197.asp ).
+- Terence Parr and all the contributors to Antlr
+  ( http://www.antlr.org ) for their great work. 
+- Kent Beck, Erich Gamma and all other contributors 
+  of the JUnit framework ( http://junit.org ).
+
+
+
