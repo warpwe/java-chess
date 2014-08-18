@@ -258,7 +258,7 @@ public class GameImpl implements Game {
 	// Iterate over the stack content
 	for( Iterator iter = _gameStatus.iterator(); iter.hasNext(); ) {
 	    resultBuffer.append( ((GameStatus)iter.next()).getPly().toString());
-	    resultBuffer.append( "\n");
+	    resultBuffer.append( " ");
 	}
 
 	return resultBuffer.toString();
