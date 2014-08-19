@@ -1,5 +1,6 @@
 language: java
-install: ant deps
+install: wget -c http://central.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar -P ./lib
+install: wget -c http://central.maven.org/maven2/junit/junit/4.11/junit-4.11.jar -P ./lib
 jdk:
   - oraclejdk7
   - openjdk7
