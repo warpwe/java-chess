@@ -43,3 +43,11 @@ Changes for 0.1.0 alpha 3
 - Dialog for setup/edit position designed. Dialog call works, ToDo: implement functions
 - Quiescence search added (read: the search tree is extended, if the last ply changed the
   game position significantly. This is the case, if it's a capture, a check or a pawn promotion).
+  
+ Changes for 0.1.1 alpha 3
+ -------------------------
+ 
+ - more Junit tests, espacially for illegal King moves and rochade problems
+ - bugfixing
+ - adjustments for position analyse
+ - activating log feature
