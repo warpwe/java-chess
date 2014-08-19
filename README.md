@@ -1,4 +1,7 @@
 # java-chess #
+
+[![Build Status](https://travis-ci.org/warpwe/java-chess.png?branch=master)](https://travis-ci.org/warpwe/java-chess)
+
 *java-chess* is a chess program that has been forked from the original [java-chess](http://sourceforge.net/projects/java-chess) project written by Andreas Rueckert und Harald Faber.
 
 
