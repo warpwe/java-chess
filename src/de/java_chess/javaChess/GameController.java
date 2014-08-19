@@ -152,7 +152,7 @@ public class GameController implements ActionListener {
    *          The new game notation.
    */
   public final void setGameNotation(IGameNotation gameNotation) {
-    gameNotation = gameNotation;
+    this.gameNotation = gameNotation;
   }
 
   /**
@@ -161,7 +161,7 @@ public class GameController implements ActionListener {
    * @return The current chess engine.
    */
   final IChessEngine getEngine() {
-    return engine;
+    return this.engine;
   }
 
   /**
@@ -171,7 +171,7 @@ public class GameController implements ActionListener {
    *          The new engine.
    */
   final void setEngine(IChessEngine engine) {
-    engine = engine;
+    this.engine = engine;
   }
 
   /**
@@ -271,6 +271,9 @@ public class GameController implements ActionListener {
     // Before any user ply can be applied, we have to stop
     // the permanent brain, so the engine is free to process
     // the user ply.
+//    if (getEngine() == null) {
+//      System.out.println("getEngine returns null");
+//    }
     getEngine().stopPermanentBrain();
 
     // plyInterpretation
