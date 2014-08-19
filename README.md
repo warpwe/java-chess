@@ -10,4 +10,4 @@ This forked version of *java-chess* is free software: you can redistribute it an
 
 *java-chess* is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with *java-chess*. If not, see https://github.com/warpwe/java-chess/blob/master/gpl-2.0.md.
+You should have received a copy of the GNU General Public License along with *java-chess*. If not, see [gpl-2.0.md](https://github.com/warpwe/java-chess/blob/master/gpl-2.0.md).
