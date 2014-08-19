@@ -21,7 +21,7 @@
 
 package de.java_chess.javaChess.engine;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 
 
 /**
@@ -65,14 +65,14 @@ public interface IBitBoardAnalyzer {
      *
      * @return The currently analyzed board.
      */
-    BitBoard getBoard();
+    IBitBoard getBoard();
 
     /**
      * Set a new board to be analyzed.
      *
      * @param board The new board.
      */
-    void setBoard( BitBoard board);
+    void setBoard( IBitBoard board);
 
     /**
      * Set the flag, if white is about to move.
@@ -95,7 +95,7 @@ public interface IBitBoardAnalyzer {
      * @param board The board to test.
      * @param white true, if the white king is checked, false otherwise.
      */
-    boolean isInCheck( BitBoard board, boolean white);
+    boolean isInCheck( IBitBoard board, boolean white);
     
     /**
      * Analyze the current board.
@@ -108,5 +108,5 @@ public interface IBitBoardAnalyzer {
      * @param board The new board to analyze.
      * @param white Flag to indicate, if white has the next move.
      */
-    short analyze( BitBoard board, boolean white);
+    short analyze( IBitBoard board, boolean white);
 }

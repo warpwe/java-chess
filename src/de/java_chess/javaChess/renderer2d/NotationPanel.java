@@ -38,7 +38,7 @@ import javax.swing.border.BevelBorder;
 
 import de.java_chess.javaChess.dialogs.PlayerDialog;
 //////////////////////////////////////////////////////////////////////////////
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.util.Tools;
 
 /**
@@ -49,7 +49,7 @@ public class NotationPanel extends JPanel implements ActionListener {
 		/**
 		 * The notation object.
 		 */
-		GameNotation _gameNotation;
+		IGameNotation _gameNotation;
 
 		/**
 		 * The layout
@@ -104,7 +104,7 @@ public class NotationPanel extends JPanel implements ActionListener {
 		/**
 		 * Standardconstructor
 		 */
-		public NotationPanel( GameNotation gameNotation) {
+		public NotationPanel( IGameNotation gameNotation) {
 	super();
 
 	// Store the game notation in this instance.
@@ -207,7 +207,7 @@ public class NotationPanel extends JPanel implements ActionListener {
 		 *
 		 * @param gameNotation The new game notation.
 		 */
-		public void setGameNotation( GameNotation gameNotation) {
+		public void setGameNotation( IGameNotation gameNotation) {
 	_gameNotation = gameNotation;
 		}
 

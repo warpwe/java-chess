@@ -51,15 +51,15 @@ import de.java_chess.javaChess.action.LoadGameAction;
 import de.java_chess.javaChess.action.ResetGameAction;
 import de.java_chess.javaChess.action.SaveGameAction;
 import de.java_chess.javaChess.action.SaveGameAsAction;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
-import de.java_chess.javaChess.engine.ChessEngine;
+import de.java_chess.javaChess.engine.IChessEngine;
 import de.java_chess.javaChess.engine.ChessEngineImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
-import de.java_chess.javaChess.listener.EngineStatusListener;
+import de.java_chess.javaChess.listener.IEngineStatusListener;
 import de.java_chess.javaChess.menu.EditMenu;
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.notation.GameNotationImpl;
 import de.java_chess.javaChess.renderer.ChessBoardRenderer;
 import de.java_chess.javaChess.renderer2d.ChessBoardRenderer2D;
@@ -73,7 +73,7 @@ import de.java_chess.javaChess.util.ResourceLoader;
 /**
  * The main class for the chess game, representing the GUI
  */
-public class JavaChess extends JFrame implements EngineStatusListener {
+public class JavaChess extends JFrame implements IEngineStatusListener {
 	// Static variables
 
 	/**
@@ -94,7 +94,7 @@ public class JavaChess extends JFrame implements EngineStatusListener {
 	private StatusPanel jpStatus = new StatusPanel( VERSIONINFO );
 
 /**
- * Eigenes Panel für das Schachbrett
+ * Eigenes Panel fï¿½r das Schachbrett
  */
 	private JPanel jpBrett = new JPanel();
 
@@ -131,17 +131,17 @@ public class JavaChess extends JFrame implements EngineStatusListener {
 		/**
 		 * The current game.
 		 */
-		Game _game;
+		IGame _game;
 
 		/**
 		 * The notation of the current game.
 		 */
-		GameNotation _gameNotation;
+		IGameNotation _gameNotation;
 
 		/**
 		 * The chess board
 		 */
-		BitBoard _board;
+		IBitBoard _board;
 
 		/**
 		 * The rendering component to display the board.
@@ -151,7 +151,7 @@ public class JavaChess extends JFrame implements EngineStatusListener {
 		/**
 		 * The chess engine.
 		 */
-		ChessEngine _engine;
+		IChessEngine _engine;
 
 		/**
 		 * The menu items
@@ -267,7 +267,7 @@ public class JavaChess extends JFrame implements EngineStatusListener {
 		fileMenu.add( getMenuItem( new SaveGameAsAction( _gameNotation)));
 
 		_exitItem = new JMenuItem( "Exit");
-		// Shortcut für ALT-X zum Beenden:
+		// Shortcut fï¿½r ALT-X zum Beenden:
 		this._exitItem.setAccelerator(javax.swing.KeyStroke.
 				getKeyStroke(88, java.awt.event.KeyEvent.ALT_MASK, false));
 		_exitItem.addActionListener(new java.awt.event.ActionListener()

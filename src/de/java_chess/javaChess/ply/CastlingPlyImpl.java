@@ -27,7 +27,7 @@ import de.java_chess.javaChess.position.PositionImpl;
 /**
  * This class represents a castling.
  */
-public class CastlingPlyImpl extends PlyImpl implements CastlingPly {
+public class CastlingPlyImpl extends PlyImpl implements ICastlingPly {
 
     // Instance variables
 

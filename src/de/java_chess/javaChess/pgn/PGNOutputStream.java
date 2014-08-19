@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 
 
 /**
@@ -54,7 +54,7 @@ public class PGNOutputStream extends FileOutputStream {
      *
      * @param gameNotation The notation of the game.
      */
-    public final void write( GameNotation gameNotation) throws IOException {
+    public final void write( IGameNotation gameNotation) throws IOException {
 
 	// Check, if there is some header available.
 	String header = gameNotation.getPGNheader();

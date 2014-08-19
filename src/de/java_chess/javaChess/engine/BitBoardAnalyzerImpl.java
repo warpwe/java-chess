@@ -14,9 +14,9 @@ package de.java_chess.javaChess.engine;
 
 import org.apache.log4j.Logger;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
-import de.java_chess.javaChess.game.Game;
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.bitboard.IBitBoard;
+import de.java_chess.javaChess.game.IGame;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -29,7 +29,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
   // A minus for pieces that block the development of the own pawns.
   static final short _pawnBlocker = 10;
-  
+
   static final Logger logger = Logger.getLogger("logfile");
 
   // The position value of pawns on all the squares, in the
@@ -122,12 +122,12 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
   /**
    * The currently analyzed board.
    */
-  private BitBoard _board;
+  private IBitBoard _board;
 
   /**
    * The current game.
    */
-  private Game _game;
+  private IGame _game;
 
   /**
    * The flag to indicate, if white moves next.
@@ -149,7 +149,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * @param plyGenerator
    *          A PlyGenerator instance to simulate moves.
    */
-  public BitBoardAnalyzerImpl(Game game, PlyGenerator plyGenerator) {
+  public BitBoardAnalyzerImpl(IGame game, PlyGenerator plyGenerator) {
     setGame(game);
     setPlyGenerator(plyGenerator);
   }
@@ -163,7 +163,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * 
    * @return The currently analyzed board.
    */
-  public final BitBoard getBoard() {
+  public final IBitBoard getBoard() {
     return _board;
   }
 
@@ -175,7 +175,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * @param board
    *          The new board.
    */
-  public final void setBoard(BitBoard board) {
+  public final void setBoard(IBitBoard board) {
     _board = board;
   }
 
@@ -186,7 +186,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * 
    * @return The current game.
    */
-  public final Game getGame() {
+  public final IGame getGame() {
     return _game;
   }
 
@@ -198,7 +198,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * @param The
    *          current game.
    */
-  public final void setGame(Game game) {
+  public final void setGame(IGame game) {
     _game = game;
   }
 
@@ -311,8 +311,8 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Get the positions of the white and black pawns.
     long[] pawnPos = new long[2];
-    pawnPos[0] = getBoard().getPositionOfPieces(Piece.PAWN << 1);
-    pawnPos[1] = getBoard().getPositionOfPieces(Piece.PAWN << 1 | 1);
+    pawnPos[0] = getBoard().getPositionOfPieces(IPiece.PAWN << 1);
+    pawnPos[1] = getBoard().getPositionOfPieces(IPiece.PAWN << 1 | 1);
 
     // I reuse the same PositionImpl object to avoid the overhead of
     // object instancing for each square.
@@ -322,7 +322,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
       if ((emptySquareMask & 1) == 0) { // If there's a piece on the
         // square
         pos.setSquareIndex(i);
-        Piece p = getBoard().getPiece(pos);
+        IPiece p = getBoard().getPiece(pos);
         // wenn emptySquareMask stimmt haben wir sicher eine Figur und
         // m�ssen das nicht mehr pr�fen
         // if( p != null) {
@@ -331,7 +331,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
         // Add the value of the piece
         switch (p.getType()) {
-          case Piece.PAWN:
+          case IPiece.PAWN:
             mValue = 10;
             pValue = _pawnPositionalValue[getGame().getNumberOfPlies() <= 12 ? 0 : 1][p.isWhite() ? i
                 : ((7 - (i >>> 3)) << 3) + (i & 7)];
@@ -341,8 +341,8 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
               Position pos2 = new PositionImpl(0);
               while (j < 64) {
                 pos2.setSquareIndex(j);
-                Piece p2 = getBoard().getPiece(pos2);
-                if (p2 != null && p2.getType() == Piece.PAWN) {
+                IPiece p2 = getBoard().getPiece(pos2);
+                if (p2 != null && p2.getType() == IPiece.PAWN) {
                   pValue -= 2;
                   break;
                 }
@@ -354,8 +354,8 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
               Position pos2 = new PositionImpl(0);
               while (j >= 0) {
                 pos2.setSquareIndex(j);
-                Piece p2 = getBoard().getPiece(pos2);
-                if (p2 != null && p2.getType() == Piece.PAWN) {
+                IPiece p2 = getBoard().getPiece(pos2);
+                if (p2 != null && p2.getType() == IPiece.PAWN) {
                   pValue -= 2;
                   break;
                 }
@@ -363,7 +363,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
               }
             }
             break;
-          case Piece.KNIGHT:
+          case IPiece.KNIGHT:
             pValue = _knightPositionalValue[getGame().getNumberOfPlies() <= 8 ? 0 : 1][p.isWhite() ? i
                 : ((7 - (i >>> 3)) << 3) + (i & 7)];
             if (getGame().getNumberOfPlies() < 12) { // Check if this
@@ -381,7 +381,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
             pValue = (short) ((int) 2 * pValue);
             mValue = 30;
             break;
-          case Piece.BISHOP:
+          case IPiece.BISHOP:
             pValue = _bishopPositionalValue[getGame().getNumberOfPlies() <= 8 ? 0 : 1][p.isWhite() ? i
                 : ((7 - (i >>> 3)) << 3) + (i & 7)];
             if (getGame().getNumberOfPlies() <= 12) { // Check if this
@@ -398,18 +398,18 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
             }
             mValue = 30;
             break;
-          case Piece.ROOK:
+          case IPiece.ROOK:
             mValue = 45;
             pValue = _rookPositionalValue[getGame().getNumberOfPlies() <= 8 ? 0 : 1][p.isWhite() ? i
                 : ((7 - (i >>> 3)) << 3) + (i & 7)];
             break;
-          case Piece.QUEEN:
+          case IPiece.QUEEN:
             mValue = 80;
             pValue = _queenPositionalValue[getGame().getNumberOfPlies() <= 14 ? 0 : 1][p.isWhite() ? i
                 : ((7 - (i >>> 3)) << 3) + (i & 7)];
             pValue = (short) (pValue / (int) 2);
             break;
-          case Piece.KING:
+          case IPiece.KING:
             pValue = _kingPositionalValue[p.isWhite() ? i : ((7 - (i >>> 3)) << 3) + (i & 7)];
             break;
         }
@@ -430,11 +430,11 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     // Return a weighted score
     // return (short)( (short)2 * positionalValue + (short)7 * materialValue
     // + checkValue);
-    
+
     // Logging.getLogging().addLogEntry(
     // getGame().toString() + " C:" + checkValue + " M:" + 9 * materialValue + " P:"
-    //        + positionalValue);
-    
+    // + positionalValue);
+
     // System.out.print(getGame().toString());
     // System.out.println("P:" + positionalValue + " M:" + materialValue +
     // " C:" + checkValue);
@@ -458,7 +458,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Get the position of the king.
     long kingPosition = getBoard().getPositionOfPieces(
-        white ? Piece.KING << 1 | 1 : Piece.KING << 1);
+        white ? IPiece.KING << 1 | 1 : IPiece.KING << 1);
     int kingSquare = BitUtils.getHighestBit(kingPosition);
     // System.out.println(" K�nig steht auf: " + kingSquare);
 
@@ -471,9 +471,9 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Get all positions of bishops and queens
     long bishopPositions = getBoard().getPositionOfPieces(
-        white ? Piece.BISHOP << 1 : (Piece.BISHOP << 1) | 1);
+        white ? IPiece.BISHOP << 1 : (IPiece.BISHOP << 1) | 1);
     long queenPositions = getBoard().getPositionOfPieces(
-        white ? Piece.QUEEN << 1 : (Piece.QUEEN << 1) | 1);
+        white ? IPiece.QUEEN << 1 : (IPiece.QUEEN << 1) | 1);
 
     // The pieces, that attack diagonal
     long diagonalPositions = bishopPositions | queenPositions;
@@ -482,7 +482,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king to the upper right.
     long kingMask = kingPosition;
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_H & BitBoard._NOT_ROW_8) << 9)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_H & IBitBoard._NOT_ROW_8) << 9)) & emptySquares) != 0L)
       ;
     if ((kingMask & diagonalPositions) != 0L) {
       // System.out.println("Schach erkannt: " +
@@ -492,7 +492,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king to the lower right. incl. Bugfix 19.07.2014 W.E.
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_H & BitBoard._NOT_ROW_1) >>> 7)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_H & IBitBoard._NOT_ROW_1) >>> 7)) & emptySquares) != 0L)
       ;
     {
       if ((kingMask & diagonalPositions) != 0L) {
@@ -503,7 +503,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     }
     // Move the king to the upper left.
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_A & BitBoard._NOT_ROW_8) << 7)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_A & IBitBoard._NOT_ROW_8) << 7)) & emptySquares) != 0L)
       ;
     if ((kingMask & diagonalPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -513,7 +513,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king to the lower left
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_A & BitBoard._NOT_ROW_1) >>> 9)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_A & IBitBoard._NOT_ROW_1) >>> 9)) & emptySquares) != 0L)
       ;
     if ((kingMask & diagonalPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -523,7 +523,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Now we need the rooks, too.
     long rookPositions = getBoard().getPositionOfPieces(
-        white ? Piece.ROOK << 1 : (Piece.ROOK << 1) | 1);
+        white ? IPiece.ROOK << 1 : (IPiece.ROOK << 1) | 1);
 
     // The pieces, that attack horizontally or vertically.
     long horVertPositions = rookPositions | queenPositions;
@@ -532,7 +532,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king downwards
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_ROW_1) >>> 8)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_ROW_1) >>> 8)) & emptySquares) != 0L)
       ;
     if ((kingMask & horVertPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -542,7 +542,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king upwards
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_ROW_8) << 8)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_ROW_8) << 8)) & emptySquares) != 0L)
       ;
     if ((kingMask & horVertPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -552,7 +552,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king to the left
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_A) >>> 1)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_A) >>> 1)) & emptySquares) != 0L)
       ;
     if ((kingMask & horVertPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -562,7 +562,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
 
     // Move the king to the right
     kingMask = kingPosition; // Reset bitmask.
-    while (((kingMask = ((kingMask & BitBoard._NOT_LINE_H) << 1)) & emptySquares) != 0L)
+    while (((kingMask = ((kingMask & IBitBoard._NOT_LINE_H) << 1)) & emptySquares) != 0L)
       ;
     if ((kingMask & horVertPositions) != 0L) {
       // System.out.println(" Schach erkannt: " +
@@ -574,7 +574,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     // Compute the knight moves backwards from the position of the
     // king and see, if there's a knight on this square.
     if ((getPlyGenerator().getKnightPlies(kingSquare) & getBoard().getPositionOfPieces(
-        white ? Piece.KNIGHT << 1 : (Piece.KNIGHT << 1) | 1)) != 0L) {
+        white ? IPiece.KNIGHT << 1 : (IPiece.KNIGHT << 1) | 1)) != 0L) {
       return true;
     }
 
@@ -583,16 +583,16 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     if (white) {
       // Get the positions of all black pawns and compare them with a
       // moved king.
-      return ((((kingMask & BitBoard._NOT_LINE_H & BitBoard._NOT_ROW_8) << 9) | ((kingMask
-          & BitBoard._NOT_LINE_A & BitBoard._NOT_ROW_8) << 7)) & getBoard().getPositionOfPieces(
-          Piece.PAWN << 1)) != 0L;
+      return ((((kingMask & IBitBoard._NOT_LINE_H & IBitBoard._NOT_ROW_8) << 9) | ((kingMask
+          & IBitBoard._NOT_LINE_A & IBitBoard._NOT_ROW_8) << 7)) & getBoard().getPositionOfPieces(
+          IPiece.PAWN << 1)) != 0L;
     }
     else {
       // Get the positions of all white pawns and compare them with a
       // moved king.
-      return ((((kingMask & BitBoard._NOT_LINE_A & BitBoard._NOT_ROW_1) >>> 9) | ((kingMask
-          & BitBoard._NOT_LINE_H & BitBoard._NOT_ROW_1) >>> 7)) & getBoard().getPositionOfPieces(
-          (Piece.PAWN << 1) | 1)) != 0L;
+      return ((((kingMask & IBitBoard._NOT_LINE_A & IBitBoard._NOT_ROW_1) >>> 9) | ((kingMask
+          & IBitBoard._NOT_LINE_H & IBitBoard._NOT_ROW_1) >>> 7)) & getBoard().getPositionOfPieces(
+          (IPiece.PAWN << 1) | 1)) != 0L;
     }
   }
 
@@ -606,7 +606,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * @param white
    *          true, if the white king is checked, false otherwise.
    */
-  public final boolean isInCheck(BitBoard board, boolean white) {
+  public final boolean isInCheck(IBitBoard board, boolean white) {
     setBoard(board);
     return isInCheck(white);
   }
@@ -621,7 +621,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
    * @param white
    *          Flag to indicate, if white has the next move.
    */
-  public final short analyze(BitBoard board, boolean white) {
+  public final short analyze(IBitBoard board, boolean white) {
     setBoard(board);
     setMoveRight(white);
     return analyze();

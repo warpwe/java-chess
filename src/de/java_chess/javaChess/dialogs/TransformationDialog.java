@@ -35,7 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.piece.IPiece;
 
 /**
  * This class implements the about box.
@@ -91,7 +91,7 @@ public class TransformationDialog extends JDialog implements ActionListener {
     private TransformationDialog( JFrame parent, boolean modal) {
         super( parent, modal);
 
-	_pieceType = Piece.QUEEN;  // Set the piece type to the default value.
+	_pieceType = IPiece.QUEEN;  // Set the piece type to the default value.
 
         setTitle( "Chose a piece type");  // Set the title of the dialog.
 
@@ -177,13 +177,13 @@ public class TransformationDialog extends JDialog implements ActionListener {
 
 	// Check for the radio buttons.
 	if( eventSource == _queenButton) {
-	    _pieceType = Piece.QUEEN;
+	    _pieceType = IPiece.QUEEN;
 	} else if( eventSource == _rookButton) {
-	    _pieceType = Piece.ROOK;
+	    _pieceType = IPiece.ROOK;
 	} else if( eventSource == _knightButton) {
-	    _pieceType = Piece.KNIGHT;
+	    _pieceType = IPiece.KNIGHT;
 	} else if( eventSource == _bishopButton) {
-	    _pieceType = Piece.BISHOP;
+	    _pieceType = IPiece.BISHOP;
 	}
     }
 

@@ -21,14 +21,14 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;
@@ -44,7 +44,7 @@ public class Analyzertst1 extends TestCase {
     /**
      * A game for the generator.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * The analyzed board.
@@ -114,13 +114,13 @@ public class Analyzertst1 extends TestCase {
     public void testanalyzer1() {
 
 	// Do the 1st analysis
-	short score1 = _analyzer.analyze( (BitBoard)_board, true);
+	short score1 = _analyzer.analyze( (IBitBoard)_board, true);
 
 	// Move the pawn and attack a black pawn
 	_board.doPly( new PlyImpl( new PositionImpl( 43), new PositionImpl( 52), true));
 
 	// Analyze the board after the ply
-	short score2 = _analyzer.analyze( (BitBoard)_board, false);
+	short score2 = _analyzer.analyze( (IBitBoard)_board, false);
 
 	// Check if the 2nd board is better for white.
 	assertTrue( "Analyzer did not recognize attack on black piece", score2 > score1);
@@ -129,7 +129,7 @@ public class Analyzertst1 extends TestCase {
 	_board.doPly( new PlyImpl( new PositionImpl( 52), new PositionImpl( 59), true));
 
 	// Analyze the board again
-	short score3 = _analyzer.analyze( (BitBoard)_board, false);
+	short score3 = _analyzer.analyze( (IBitBoard)_board, false);
 
 	assertTrue( "Analyzer does not recognize attack on black queen", score3 > score2);
     }

@@ -21,16 +21,16 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.piece.PieceImpl;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
@@ -51,7 +51,7 @@ public class KingInKnightCheckTest extends TestCase {
     /**
      * A game for the generator.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * A board for the pieces.
@@ -110,8 +110,8 @@ public class KingInKnightCheckTest extends TestCase {
 	_analyzer = new BitBoardAnalyzerImpl( _game, _plyGenerator);
 
 	// Set the 2 kings on the board
-	_board.setPiece( new PieceImpl( Piece.KING, Piece.BLACK), new PositionImpl( _blackKingPos));
-	_board.setPiece( new PieceImpl( Piece.KING, Piece.WHITE), new PositionImpl( _whiteKingPos));
+	_board.setPiece( new PieceImpl( IPiece.KING, IPiece.BLACK), new PositionImpl( _blackKingPos));
+	_board.setPiece( new PieceImpl( IPiece.KING, IPiece.WHITE), new PositionImpl( _whiteKingPos));
     }
 
     /**
@@ -127,7 +127,7 @@ public class KingInKnightCheckTest extends TestCase {
 
 	    if( null == _board.getPiece( currentPosition)) {  // If this square is empty
 
-		_board.setPiece( new PieceImpl( Piece.KNIGHT, Piece.BLACK), currentPosition);  // Set a black knight there.
+		_board.setPiece( new PieceImpl( IPiece.KNIGHT, IPiece.BLACK), currentPosition);  // Set a black knight there.
 
 		int squareIndexDifference = Math.abs( i - _whiteKingPos);
 
@@ -139,7 +139,7 @@ public class KingInKnightCheckTest extends TestCase {
 					       || ( squareIndexDifference == 17));
 
 		// Only if the white king is in check, the analyzer should return BLACK_WIN.
-		assertTrue( "Wrong check status with knight on square " + i, whiteKingIsInCheck == _analyzer.isInCheck( (BitBoard)_board, true));
+		assertTrue( "Wrong check status with knight on square " + i, whiteKingIsInCheck == _analyzer.isInCheck( (IBitBoard)_board, true));
 
 		_board.setPiece( null, currentPosition);  // Remove the black knight from the current square.
 	    }

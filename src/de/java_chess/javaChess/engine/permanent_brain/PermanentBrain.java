@@ -23,9 +23,9 @@
 package de.java_chess.javaChess.engine.permanent_brain;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.engine.ChessEngine;
+import de.java_chess.javaChess.engine.IChessEngine;
 import de.java_chess.javaChess.engine.ChessEngineImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -39,7 +39,7 @@ public class PermanentBrain implements Runnable {
     /**
      * The potential next moves of the human player.
      */
-    private Ply [] _userPlies;
+    private IPly [] _userPlies;
 
     /**
      * The computed responses to the user plies.
@@ -49,7 +49,7 @@ public class PermanentBrain implements Runnable {
     /**
      * The used chess engine.
      */
-    private ChessEngine _engine;
+    private IChessEngine _engine;
 
     /**
      * The search thread for the plies.
@@ -64,7 +64,7 @@ public class PermanentBrain implements Runnable {
      *
      * @param engine The used chess engine.
      */
-    public PermanentBrain( ChessEngine engine) {
+    public PermanentBrain( IChessEngine engine) {
 	setEngine( engine);
     }
 
@@ -76,7 +76,7 @@ public class PermanentBrain implements Runnable {
      *
      * @return The current chess engine.
      */
-    private final ChessEngine getEngine() {
+    private final IChessEngine getEngine() {
 	return _engine;
     }
 
@@ -85,7 +85,7 @@ public class PermanentBrain implements Runnable {
      *
      * @param engine The new chess engine.
      */
-    private final void setEngine( ChessEngine engine) {
+    private final void setEngine( IChessEngine engine) {
 	_engine=engine;
     }
 
@@ -102,7 +102,7 @@ public class PermanentBrain implements Runnable {
      *
      * @return The potential plies for a user.
      */
-    public final Ply [] getUserPlies() {
+    public final IPly [] getUserPlies() {
 
 	// Lazy computation for better performance.
 	if( _userPlies == null) {
@@ -119,7 +119,7 @@ public class PermanentBrain implements Runnable {
      *
      * @return The precomputed response for the user ply.
      */
-    public final PreComputedPly getPlyForUserPly( Ply ply) {
+    public final PreComputedPly getPlyForUserPly( IPly ply) {
 
 	if( _computedPlies != null) {
 
@@ -128,7 +128,7 @@ public class PermanentBrain implements Runnable {
 	    stopComputation();
 
 	    // Get the index of the user ply.
-	    Ply [] userPlies = getUserPlies();
+	    IPly [] userPlies = getUserPlies();
 	    int plyCount = userPlies.length;
 
 	    for( int i=0; i < plyCount; i++) {
@@ -188,7 +188,7 @@ public class PermanentBrain implements Runnable {
 	Board currentBoard = getEngine().getBoard();  // No clone() required at the moment.
 
 	// Get the user plies as a local variable.
-	Ply [] userPlies = getUserPlies();
+	IPly [] userPlies = getUserPlies();
 
 	// Let the minimax search run through.
 	( ( ChessEngineImpl)getEngine()).setSearchStop( false);

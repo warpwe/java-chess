@@ -22,7 +22,7 @@
 package de.java_chess.javaChess.renderer;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -59,5 +59,5 @@ public interface ChessBoardRenderer {
      *
      * @param ply The ply to render.
      */
-    void doPly( Ply ply);
+    void doPly( IPly ply);
 }

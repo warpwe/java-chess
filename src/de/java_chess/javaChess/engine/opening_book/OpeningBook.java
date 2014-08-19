@@ -22,8 +22,8 @@ package de.java_chess.javaChess.engine.opening_book;
 
 import java.io.File;
 
-import de.java_chess.javaChess.ply.AnalyzedPly;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -38,7 +38,7 @@ public interface OpeningBook {
      *
      * @param ply The ply from the user.
      */
-    void doUserPly( Ply ply);
+    void doUserPly( IPly ply);
 
     /**
      * Get the next ply from the opening book, if there is
@@ -47,7 +47,7 @@ public interface OpeningBook {
      * @return The next ply from the opening book, or null 
      *         if there's no ply available.
      */
-    AnalyzedPly getOpeningBookPly();
+    IAnalyzedPly getOpeningBookPly();
 
     /**
      * Reset the opening book to the initial piece position.

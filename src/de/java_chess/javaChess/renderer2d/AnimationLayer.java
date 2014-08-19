@@ -26,7 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -47,7 +47,7 @@ class AnimationLayer extends JPanel implements Runnable {
     /**
      * The current ply to animate.
      */
-    private Ply _ply = null;
+    private IPly _ply = null;
 
     /**
      * The renderer for the piece, that we are animate.
@@ -82,7 +82,7 @@ class AnimationLayer extends JPanel implements Runnable {
     /**
      * Animate the move of a piece.
      */
-    void animatePly( Ply ply) {
+    void animatePly( IPly ply) {
 	_ply = ply;
     }
 

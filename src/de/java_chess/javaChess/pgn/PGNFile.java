@@ -24,7 +24,7 @@ import java.io.Reader;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.notation.GameNotationImpl;
 
 
@@ -68,10 +68,10 @@ public class PGNFile {
      * @throws RecognitionException If a parser problem occured.
      * @throws TokenStreamException If a scanner problem occured.
      */
-    public final GameNotation readGame() throws RecognitionException, TokenStreamException {
+    public final IGameNotation readGame() throws RecognitionException, TokenStreamException {
 	
 	// A buffer for the result.
-	GameNotation notationBuffer = new GameNotationImpl();
+	IGameNotation notationBuffer = new GameNotationImpl();
 
 	// Start the parsing of the file.
 	getPGNParser().pgnGame( notationBuffer);

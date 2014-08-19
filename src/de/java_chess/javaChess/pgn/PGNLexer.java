@@ -24,7 +24,7 @@ import antlr.collections.impl.BitSet;
 /**
  * A lexer for PGN files.
  */
-public class PGNLexer extends antlr.CharScanner implements PGNTokenTypes, TokenStream
+public class PGNLexer extends antlr.CharScanner implements IPgnTokenTypes, TokenStream
  {
 public PGNLexer(InputStream in) {
 	this(new ByteBuffer(in));

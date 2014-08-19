@@ -24,7 +24,7 @@ package de.java_chess.javaChess.piece;
 /**
  * This interface has to be implemented by any chess piece.
  */
-public interface Piece {
+public interface IPiece {
 
     // Static variables
 

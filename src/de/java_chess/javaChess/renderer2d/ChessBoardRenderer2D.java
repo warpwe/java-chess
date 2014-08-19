@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 import de.java_chess.javaChess.GameController;
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.renderer.ChessBoardRenderer;
 
 
@@ -156,7 +156,7 @@ public class ChessBoardRenderer2D extends JPanel implements ChessBoardRenderer {
 		 *
 		 * @param ply The ply to render.
 		 */
-		public final void doPly( Ply ply) {
+		public final void doPly( IPly ply) {
 	_piecesLayer.doPly( ply);
 	repaint();
 		}

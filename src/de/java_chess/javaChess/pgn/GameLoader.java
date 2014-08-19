@@ -21,19 +21,19 @@
 
 package de.java_chess.javaChess.pgn;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
-import de.java_chess.javaChess.notation.PlyNotation;
+import de.java_chess.javaChess.notation.IPlyNotation;
 import de.java_chess.javaChess.notation.PlyNotationImpl;
 import de.java_chess.javaChess.ply.CastlingPlyImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.ply.TransformationPlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;
@@ -49,7 +49,7 @@ public class GameLoader {
     /**
      * A game for the generator.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * The current board of the game.
@@ -86,7 +86,7 @@ public class GameLoader {
         _board = new BitBoardImpl();
 	
         // Create the ply generator.
-        _plyGenerator = new PlyGenerator( _game, (BitBoard)_board, new PlyHashtableImpl( 10));
+        _plyGenerator = new PlyGenerator( _game, (IBitBoard)_board, new PlyHashtableImpl( 10));
 
         // And the analyzer.
         _analyzer = new BitBoardAnalyzerImpl( _game, _plyGenerator);
@@ -107,11 +107,11 @@ public class GameLoader {
      *
      * @return The notation for the ply, if we could recognize the ply, or null.
      */
-    public final PlyNotation completePly( PGNPlyFragment plyFragment) {
+    public final IPlyNotation completePly( PGNPlyFragment plyFragment) {
 
 	// Create a ply from the ply fragment.
-	Ply ply = null;
-	PlyNotation notation = null;
+	IPly ply = null;
+	IPlyNotation notation = null;
 
 	// If the origin of the move is missing, compute it from the destination
 	// ...not necessary yet...
@@ -125,7 +125,7 @@ public class GameLoader {
 	    if( plyFragment.getOrigin() == null) {  // If there was no origin given, try to figure it from the currently available moves
 
 		// Compute all the available moves for this board.
-		Ply [] plies = _plyGenerator.getPliesForColor( _whiteMoves);    
+		IPly [] plies = _plyGenerator.getPliesForColor( _whiteMoves);    
 
 		for( int i=0; i < plies.length; i++) {
 		    if( ( plies[i].getDestination() == plyFragment.getDestination())
@@ -165,7 +165,7 @@ public class GameLoader {
      *
      * param ply The ply to perform.
      */
-    private final void doPly( Ply ply) {
+    private final void doPly( IPly ply) {
 	_game.doPly( ply);
         _board.doPly( ply);
 

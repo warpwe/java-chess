@@ -33,7 +33,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 import de.java_chess.javaChess.GameState;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtable;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableEntryImpl;
@@ -43,27 +43,27 @@ import de.java_chess.javaChess.engine.opening_book.OpeningBookImpl;
 import de.java_chess.javaChess.engine.opening_book.action.LoadOpeningsAction;
 import de.java_chess.javaChess.engine.permanent_brain.PermanentBrain;
 import de.java_chess.javaChess.engine.permanent_brain.PreComputedPly;
-import de.java_chess.javaChess.game.Game;
-import de.java_chess.javaChess.listener.EngineStatusListener;
-import de.java_chess.javaChess.notation.GameNotation;
-import de.java_chess.javaChess.ply.AnalyzedPly;
+import de.java_chess.javaChess.game.IGame;
+import de.java_chess.javaChess.listener.IEngineStatusListener;
+import de.java_chess.javaChess.notation.IGameNotation;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
 import de.java_chess.javaChess.ply.AnalyzedPlyImpl;
-import de.java_chess.javaChess.ply.Ply;
-import de.java_chess.javaChess.ply.TransformationPly;
+import de.java_chess.javaChess.ply.IPly;
+import de.java_chess.javaChess.ply.ITransformationPly;
 import de.java_chess.javaChess.renderer2d.EnginePanel;
 import de.java_chess.javaChess.renderer2d.StatusPanel;
 
 /**
  * This class implements the functionality to play the actual game of chess
  */
-public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
+public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
 
 	// Instance variables
 
 	/**
 	 * The current game.
 	 */
-	private Game _game;
+	private IGame _game;
 
 	/**
 	 * The board to operate on.
@@ -143,7 +143,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	/**
 	 * The best computed ply so far.
 	 */
-	private AnalyzedPly _bestPly = null;
+	private IAnalyzedPly _bestPly = null;
 
 	/**
 	 * The menu items for the various fix search times.
@@ -183,7 +183,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	/**
 	 * The last ply from the user.
 	 */
-	Ply _lastUserPly = null;
+	IPly _lastUserPly = null;
 
 	/**
 	 * Flag that indicates if the chosen time control is fixed or average time
@@ -219,7 +219,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @param white
 	 *            Flag, to indicate if the engine operates on the white pieces.
 	 */
-	public ChessEngineImpl(Game game, GameNotation notation, Board board,
+	public ChessEngineImpl(IGame game, IGameNotation notation, Board board,
 			boolean white) {
 		listeners = new ArrayList();
 		setGame(game);
@@ -266,7 +266,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * 
 	 * @return The current game.
 	 */
-	public final Game getGame() {
+	public final IGame getGame() {
 		return _game;
 	}
 
@@ -276,7 +276,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @param The
 	 *            current game.
 	 */
-	public final void setGame(Game game) {
+	public final void setGame(IGame game) {
 		_game = game;
 	}
 
@@ -458,7 +458,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * 
 	 * @return The best known ply for the current position.
 	 */
-	public Ply computeBestPly() {
+	public IPly computeBestPly() {
 
 		_bestPly = null; // Remove ply from last computation.
 		long startTime = System.currentTimeMillis();
@@ -555,7 +555,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 		do {
 			increaseSearchDepth();
 
-			AnalyzedPly searchDepthResult = null;
+			IAnalyzedPly searchDepthResult = null;
 			try {
 				searchDepthResult = startMinimaxAlphaBeta(isWhite());
 			} catch (InterruptedException ignored) { // The search was just
@@ -606,13 +606,13 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @throws InterruptedException
 	 *             if the search was interrupted because of a timeout.
 	 */
-	public final AnalyzedPly startMinimaxAlphaBeta(boolean white)
+	public final IAnalyzedPly startMinimaxAlphaBeta(boolean white)
 			throws InterruptedException {
-		short curAlpha = AnalyzedPly.MIN_SCORE;
-		short curBeta = AnalyzedPly.MAX_SCORE;
+		short curAlpha = IAnalyzedPly.MIN_SCORE;
+		short curBeta = IAnalyzedPly.MAX_SCORE;
 		int bestPlyIndex = -1;
 
-		Ply[] plies = _plyGenerator.getPliesForColor((BitBoard) getBoard(),
+		IPly[] plies = _plyGenerator.getPliesForColor((IBitBoard) getBoard(),
 				white);
 		if (white) {
 			for (int i = 0; i < plies.length; i++) {
@@ -738,13 +738,13 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @throws InterruptedException
 	 *             if the search was interrupted because of a timeout.
 	 */
-	private final short minimaxAlphaBeta(Ply lastPly, Board board,
+	private final short minimaxAlphaBeta(IPly lastPly, Board board,
 			boolean white, int searchLevel, short alpha, short beta)
 			throws InterruptedException {
 		if ((searchLevel >= getSearchDepth())
 				&& (!lastPly.isCapture()
-						|| !(lastPly instanceof TransformationPly) || !_analyzer
-							.isInCheck((BitBoard) board, !white))) {
+						|| !(lastPly instanceof ITransformationPly) || !_analyzer
+							.isInCheck((IBitBoard) board, !white))) {
 			increaseAnalyzedBoards();
 			return analyzeBoard(board);
 		} else {
@@ -752,7 +752,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 			short curBeta = beta;
 			int bestPlyIndex = -1;
 
-			Ply[] plies = _plyGenerator.getPliesForColor((BitBoard) board,
+			IPly[] plies = _plyGenerator.getPliesForColor((IBitBoard) board,
 					white);
 			if (white) {
 				for (int i = 0; i < plies.length; i++) {
@@ -807,7 +807,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 				} else {
 					if (plies.length == 0) { // There are no legal moves
 												// available?
-						if (_analyzer.isInCheck((BitBoard) board, white)) { // Is
+						if (_analyzer.isInCheck((IBitBoard) board, white)) { // Is
 																			// this
 																			// a
 																			// checkmate?
@@ -868,7 +868,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 				} else {
 					if (plies.length == 0) { // There are no legal moves
 												// available?
-						if (_analyzer.isInCheck((BitBoard) board, white)) { // Is
+						if (_analyzer.isInCheck((IBitBoard) board, white)) { // Is
 																			// this
 																			// a
 																			// checkmate?
@@ -890,7 +890,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @return A score for the current game position.
 	 */
 	public final short analyzeBoard(Board board) {
-		return _analyzer.analyze((BitBoard) board, isWhite());
+		return _analyzer.analyze((IBitBoard) board, isWhite());
 	}
 
 	/**
@@ -898,9 +898,9 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * 
 	 * @return All the potential plies for the human player.
 	 */
-	public final Ply[] getUserPlies() {
+	public final IPly[] getUserPlies() {
 		return _plyGenerator
-				.getPliesForColor((BitBoard) getBoard(), !isWhite());
+				.getPliesForColor((IBitBoard) getBoard(), !isWhite());
 	}
 
 	/**
@@ -911,11 +911,11 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * 
 	 * @return true, if the ply is valid. false otherwise.
 	 */
-	public final boolean validateUserPly(Ply ply) {
+	public final boolean validateUserPly(IPly ply) {
 
 		// Get the user plies from the permanent brain, where they
 		// were hopefully already computed (if the PB is actually active).
-		Ply[] plies = getPermanentBrain().getUserPlies();
+		IPly[] plies = getPermanentBrain().getUserPlies();
 		// If the permanent brain is not activated at the moment, remove the
 		// computed plies immediately, so they are recomputed for the next move!
 		if (!usePermanentBrain()) {
@@ -1206,7 +1206,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	public final byte getCurrentGameState(boolean white) {
 
 		// Test if the given player is in check.
-		boolean inCheck = _analyzer.isInCheck((BitBoard) getBoard(), white);
+		boolean inCheck = _analyzer.isInCheck((IBitBoard) getBoard(), white);
 		// @Testdisplay
 		// System.out.println(white + " " + inCheck);
 		// Test if the player has valid plies available.
@@ -1218,7 +1218,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 		// engine should
 		// cache the computed plies.
 		boolean validPliesAvailable = (_plyGenerator.getPliesForColor(
-				(BitBoard) getBoard(), white).length > 0);
+				(IBitBoard) getBoard(), white).length > 0);
 
 		if (inCheck) {
 			return validPliesAvailable ? GameState.CHECK : GameState.CHECKMATE;
@@ -1272,7 +1272,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	 * @param listener
 	 *            The object to be registered.
 	 */
-	public void addEngineStatusListener(EngineStatusListener listener) {
+	public void addEngineStatusListener(IEngineStatusListener listener) {
 		listeners.add(listener);
 	}
 
@@ -1282,7 +1282,7 @@ public class ChessEngineImpl implements ChessEngine, Runnable, ActionListener {
 	public void notifyListeners() {
 		Iterator iterator = listeners.iterator();
 		while (iterator.hasNext()) {
-			EngineStatusListener listener = (EngineStatusListener) iterator
+			IEngineStatusListener listener = (IEngineStatusListener) iterator
 					.next();
 			listener.engineStatusChanged(this);
 		}

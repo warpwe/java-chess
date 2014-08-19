@@ -26,7 +26,7 @@ package de.java_chess.javaChess.ply;
 /**
  * Utility class for plies and their scores.
  */
-public class AnalyzedPlyImpl implements AnalyzedPly {
+public class AnalyzedPlyImpl implements IAnalyzedPly {
 
 
     // Instance variables
@@ -34,7 +34,7 @@ public class AnalyzedPlyImpl implements AnalyzedPly {
     /**
      * The analyzed ply.
      */
-    private Ply _ply;
+    private IPly _ply;
 
     /**
      * The result of the analysis.
@@ -47,7 +47,7 @@ public class AnalyzedPlyImpl implements AnalyzedPly {
     /**
      * Create a new AnalyzedPly instance.
      */
-    public AnalyzedPlyImpl( Ply ply, short score) {
+    public AnalyzedPlyImpl( IPly ply, short score) {
 	setPly( ply);
 	setScore( score);
     }
@@ -60,7 +60,7 @@ public class AnalyzedPlyImpl implements AnalyzedPly {
      *
      * @return The analyzed ply.
      */
-    public final Ply getPly() {
+    public final IPly getPly() {
 	return _ply;
     }
     
@@ -69,7 +69,7 @@ public class AnalyzedPlyImpl implements AnalyzedPly {
      *
      * @param ply The new ply.
      */
-    public final void setPly( Ply ply) {
+    public final void setPly( IPly ply) {
 	_ply = ply;
     }
 

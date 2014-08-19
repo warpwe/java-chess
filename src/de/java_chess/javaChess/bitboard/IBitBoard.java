@@ -28,7 +28,7 @@ import de.java_chess.javaChess.board.Board;
  * This interface defines the methods to be implemented by any 
  * bitboard implementation.
  */
-public interface BitBoard extends Board {
+public interface IBitBoard extends Board {
     
     // Static constants.
 

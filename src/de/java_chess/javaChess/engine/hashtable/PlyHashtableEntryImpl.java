@@ -20,10 +20,10 @@
 
 package de.java_chess.javaChess.engine.hashtable;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.piece.Piece;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.piece.IPiece;
+import de.java_chess.javaChess.ply.IPly;
 // import java.util.zip.CRC32;
 
 
@@ -43,7 +43,7 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
     /**
      * The ply to store.
      */
-    private Ply _ply;
+    private IPly _ply;
 
     /**
      * The search depth, that was used to compute this ply.
@@ -60,7 +60,7 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
      * @param ply The ply to store.
      * @param searchDepth The search depth, that was used to compute the ply.
      */
-    public PlyHashtableEntryImpl( Board board, Ply ply, int searchDepth) {
+    public PlyHashtableEntryImpl( Board board, IPly ply, int searchDepth) {
 	setBoard( board);
 	setPly( ply);
 	setSearchDepth( searchDepth);
@@ -92,7 +92,7 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
      *
      * @return The ply.
      */
-    public final Ply getPly() {
+    public final IPly getPly() {
 	return _ply;
     }
 
@@ -101,7 +101,7 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
      *
      * @param ply The ply to set.
      */
-    public final void setPly( Ply ply) {
+    public final void setPly( IPly ply) {
 	_ply = ply;
     }
 
@@ -129,7 +129,7 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
      * @return true, if it's a move with white pieces.
      */
     public final boolean isWhiteMove() {
-	return getBoard().getPiece( getPly().getSource()).getColor() == Piece.WHITE;
+	return getBoard().getPiece( getPly().getSource()).getColor() == IPiece.WHITE;
     }
     
     /**
@@ -150,6 +150,6 @@ public class PlyHashtableEntryImpl implements PlyHashtableEntry {
      * @return A hashcode for the given board and color.
      */
     public static long hashKey( Board board, boolean white) {
-	return ZobristKeyImpl.getInstance().computeKey( (BitBoard)board, white);
+	return ZobristKeyImpl.getInstance().computeKey( (IBitBoard)board, white);
     }
 }

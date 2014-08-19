@@ -27,7 +27,7 @@ import de.java_chess.javaChess.position.Position;
 /**
  * This class implements the functionality of a ply.
  */
-public class PlyImpl implements Ply {
+public class PlyImpl implements IPly {
 
     // Instance variables
 
@@ -137,7 +137,7 @@ public class PlyImpl implements Ply {
      *
      * @return true, if the 2 plies are equal.
      */
-    public final boolean equals(Ply ply) {
+    public final boolean equals(IPly ply) {
 	return ply.getSource().equals( getSource())
 	    && ply.getDestination().equals( getDestination());
     }

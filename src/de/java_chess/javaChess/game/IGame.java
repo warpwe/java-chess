@@ -21,7 +21,7 @@
 
 package de.java_chess.javaChess.game;
 
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.position.Position;
 
 
@@ -29,7 +29,7 @@ import de.java_chess.javaChess.position.Position;
  * This interface defines the functionality to store a complete game,
  * including access to all the stages of a game.
  */
-public interface Game {
+public interface IGame {
 
     // Methods
 
@@ -43,7 +43,7 @@ public interface Game {
      *
      * @ply The new ply.
      */
-    void doPly( Ply ply);
+    void doPly( IPly ply);
 
     /**
      * Take the last ply back.
@@ -62,7 +62,7 @@ public interface Game {
      *
      * @return The last ply.
      */
-    Ply getLastPly();
+    IPly getLastPly();
 
     /**
      * Check, if a piece on a given positon was moved from it's

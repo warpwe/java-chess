@@ -24,7 +24,7 @@ package de.java_chess.javaChess.ply;
 /**
  * Utility class for plies and their scores.
  */
-public interface AnalyzedPly {
+public interface IAnalyzedPly {
 
 
     // Static class variables
@@ -47,14 +47,14 @@ public interface AnalyzedPly {
      *
      * @return The analyzed ply.
      */
-    Ply getPly();
+    IPly getPly();
     
     /**
      * Set a new ply.
      *
      * @param ply The new ply.
      */
-    void setPly( Ply ply);
+    void setPly( IPly ply);
 
     /**
      * Get the scrore of this ply.

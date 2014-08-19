@@ -27,11 +27,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.piece.Piece;
-import de.java_chess.javaChess.ply.CastlingPly;
-import de.java_chess.javaChess.ply.EnPassantPly;
-import de.java_chess.javaChess.ply.Ply;
-import de.java_chess.javaChess.ply.TransformationPly;
+import de.java_chess.javaChess.piece.IPiece;
+import de.java_chess.javaChess.ply.ICastlingPly;
+import de.java_chess.javaChess.ply.IEnPassantPly;
+import de.java_chess.javaChess.ply.IPly;
+import de.java_chess.javaChess.ply.ITransformationPly;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -87,7 +87,7 @@ class PiecesLayer extends JPanel {
 
 	for( int s = 0; s < 64; s++) {
 			pos.setSquareIndex( s);
-			Piece p = _board.getPiece( pos);
+			IPiece p = _board.getPiece( pos);
 			_square[ s] = ( p != null ? new PositionRenderer( new PieceRenderer( p.getColor(), p.getType(), _set, this)) : new PositionRenderer());
 	}
 
@@ -109,16 +109,16 @@ class PiecesLayer extends JPanel {
 		 *
 		 * @param ply The ply to render.
 		 */
-		public final void doPly( Ply ply) {
+		public final void doPly( IPly ply) {
 	if( _animatedMoves) {
 			getAnimationLayer().animatePly( ply);
 			getAnimationLayer().start();
 			repaint();
 	} else {
 			// Check, if it was a castling
-			if( ply instanceof CastlingPly) {
+			if( ply instanceof ICastlingPly) {
 		int source = ply.getSource().getSquareIndex();
-		if( ( (CastlingPly)ply).isLeftCastling()) {
+		if( ( (ICastlingPly)ply).isLeftCastling()) {
 				_square[ source - 2].getPieceFrom( _square[ source]);
 				_square[ source - 1].getPieceFrom( _square[ source - 4]);  // Move the rook to the right
 		} else {
@@ -127,21 +127,21 @@ class PiecesLayer extends JPanel {
 		}
 			} else {
 		// If a pawn has just reached the last row
-		if(ply instanceof TransformationPly) {
+		if(ply instanceof ITransformationPly) {
 
 				// Copy the piece from source square to destination square.
 				_square[ ply.getDestination().getSquareIndex()].getPieceFrom( _square[ ply.getSource().getSquareIndex()]);
 
 				// Now change the rendering to the new piece type.
 				_square[ ply.getDestination().getSquareIndex()].setIcon( new ImageIcon( new PieceRenderer( ply.getDestination().getSquareIndex() < 8
-												? Piece.BLACK : Piece.WHITE, ( (TransformationPly)ply).getTypeAfterTransformation(), _set, this)));
+												? IPiece.BLACK : IPiece.WHITE, ( (ITransformationPly)ply).getTypeAfterTransformation(), _set, this)));
 		} else {
 				// Copy the piece from source square to destination square.
 				_square[ ply.getDestination().getSquareIndex()].getPieceFrom( _square[ ply.getSource().getSquareIndex()]);
 
 				// If it's a en passant ply, remove the attacked pawn.
-				if( ply instanceof EnPassantPly) {
-			_square[ ( (EnPassantPly)ply).getAttackedPosition().getSquareIndex()].setIcon( null);
+				if( ply instanceof IEnPassantPly) {
+			_square[ ( (IEnPassantPly)ply).getAttackedPosition().getSquareIndex()].setIcon( null);
 				}
 		}
 			}

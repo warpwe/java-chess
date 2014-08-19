@@ -3,7 +3,7 @@
 package de.java_chess.javaChess.pgn;
 
 
-public interface PGNTokenTypes {
+public interface IPgnTokenTypes {
 	int EOF = 1;
 	int NULL_TREE_LOOKAHEAD = 3;
 	int LBRACK = 4;

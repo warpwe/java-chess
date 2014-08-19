@@ -21,7 +21,7 @@
 
 package de.java_chess.javaChess.engine.permanent_brain;
 
-import de.java_chess.javaChess.ply.AnalyzedPly;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
 
 
 /**
@@ -35,7 +35,7 @@ public class PreComputedPlyImpl implements PreComputedPly {
     /**
      * The computed ply.
      */
-    AnalyzedPly _ply;
+    IAnalyzedPly _ply;
 
     /**
      * The search depth, that was used to compute this ply.
@@ -51,7 +51,7 @@ public class PreComputedPlyImpl implements PreComputedPly {
      * @param ply The computed ply.
      * @param searchDepth The used search depth.
      */
-    public PreComputedPlyImpl( AnalyzedPly ply, int searchDepth) {
+    public PreComputedPlyImpl( IAnalyzedPly ply, int searchDepth) {
 	setPly( ply);
 	setSearchDepth( searchDepth);
     }
@@ -64,7 +64,7 @@ public class PreComputedPlyImpl implements PreComputedPly {
      *
      * @return The computed ply.
      */
-    public final AnalyzedPly getPly() {
+    public final IAnalyzedPly getPly() {
 	return _ply;
     }
 
@@ -73,7 +73,7 @@ public class PreComputedPlyImpl implements PreComputedPly {
      *
      * @param ply The computed ply.
      */
-    private final void setPly( AnalyzedPly ply) {
+    private final void setPly( IAnalyzedPly ply) {
 	_ply = ply;
     }
 

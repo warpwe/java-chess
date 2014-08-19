@@ -20,8 +20,8 @@
 
 package de.java_chess.javaChess.board;
 
-import de.java_chess.javaChess.piece.Piece;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.piece.IPiece;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.position.Position;
 
 
@@ -39,7 +39,7 @@ public interface Board extends Cloneable {
      * @return The piece on that position, or null if the 
      * square is empty.
      */
-    Piece getPiece(Position position);
+    IPiece getPiece(Position position);
 
     /**
      * Remove all the pieces from the board.
@@ -57,14 +57,14 @@ public interface Board extends Cloneable {
      * @param piece The piece to set.
      * @param position The position to set the piece on.
      */
-    void setPiece(Piece piece, Position position);
+    void setPiece(IPiece piece, Position position);
 
     /**
      * Move a piece from one square to another.
      *
      * @param ply The move to perform.
      */
-    void doPly(Ply ply);
+    void doPly(IPly ply);
 
     /**
      * Return a new board, that results from a given ply.
@@ -73,7 +73,7 @@ public interface Board extends Cloneable {
      *
      * @return A new board with the game position after the ply.
      */
-    Board getBoardAfterPly(Ply ply);
+    Board getBoardAfterPly(IPly ply);
 
     /**
      * Return a copy of the current board.

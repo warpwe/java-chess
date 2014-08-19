@@ -28,7 +28,7 @@ import de.java_chess.javaChess.position.Position;
  * This class is for pawn plies, that reach the last row
  * and transform into a new piece type.
  */
-public class TransformationPlyImpl extends PlyImpl implements TransformationPly {
+public class TransformationPlyImpl extends PlyImpl implements ITransformationPly {
 
 
     // Instance variables.

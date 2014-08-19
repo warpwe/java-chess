@@ -21,7 +21,7 @@
 
 package de.java_chess.javaChess.engine.permanent_brain;
 
-import de.java_chess.javaChess.ply.AnalyzedPly;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
 
 
 /**
@@ -37,7 +37,7 @@ public interface PreComputedPly {
      *
      * @return The computed ply.
      */
-    AnalyzedPly getPly();
+    IAnalyzedPly getPly();
 
     /**
      * Get the search depth, that was used to compute this ply.

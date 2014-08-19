@@ -23,15 +23,15 @@ package de.java_chess.javaChess.engine;
 import javax.swing.JMenu;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.game.Game;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.game.IGame;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
  * This interface defines the functionality of a engine
  * to play the game of chess.
  */
-public interface ChessEngine {
+public interface IChessEngine {
 
     /**
      * Reset the engine for a new game.
@@ -43,14 +43,14 @@ public interface ChessEngine {
      *
      * @return The current game.
      */
-    Game getGame();
+    IGame getGame();
 
     /**
      * Set the current game.
      *
      * @param The current game.
      */
-    void setGame( Game game);
+    void setGame( IGame game);
 
     /**
      * Get the current board.
@@ -85,14 +85,14 @@ public interface ChessEngine {
      *
      * @return The best known ply for the current position.
      */
-    Ply computeBestPly();
+    IPly computeBestPly();
 
     /**
      * Get all the potential plies for the human player.
      *
      * @return All the potential plies for the human player.
      */
-    Ply [] getUserPlies();
+    IPly [] getUserPlies();
 
     /**
      * Check if a ply made by the user is valid.
@@ -101,7 +101,7 @@ public interface ChessEngine {
      *
      * @return true, if the ply is valid. false otherwise.
      */
-    boolean validateUserPly( Ply ply);
+    boolean validateUserPly( IPly ply);
 
     /**
      * Request a menu from the chess engine, where the user

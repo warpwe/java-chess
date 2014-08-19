@@ -22,13 +22,13 @@
 package de.java_chess.javaChess.bitboard;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.piece.PieceImpl;
-import de.java_chess.javaChess.ply.CastlingPly;
-import de.java_chess.javaChess.ply.EnPassantPly;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.ICastlingPly;
+import de.java_chess.javaChess.ply.IEnPassantPly;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
-import de.java_chess.javaChess.ply.TransformationPly;
+import de.java_chess.javaChess.ply.ITransformationPly;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -37,7 +37,7 @@ import de.java_chess.javaChess.position.PositionImpl;
  * This class stores a chess board as a couple of
  * overlayed longs (64-Bit wide).
  */
-public class BitBoardImpl implements BitBoard {
+public class BitBoardImpl implements IBitBoard {
 
 
     // Instance variables
@@ -96,25 +96,25 @@ public class BitBoardImpl implements BitBoard {
 	}
 
 	for( int i = 0; i < 8; i++) {
-	    setPiece(new PieceImpl(Piece.PAWN, Piece.WHITE), new PositionImpl( 8 + i));
-	    setPiece(new PieceImpl(Piece.PAWN, Piece.BLACK), new PositionImpl( 48 + i));
+	    setPiece(new PieceImpl(IPiece.PAWN, IPiece.WHITE), new PositionImpl( 8 + i));
+	    setPiece(new PieceImpl(IPiece.PAWN, IPiece.BLACK), new PositionImpl( 48 + i));
 	}
-	setPiece(new PieceImpl(Piece.ROOK, Piece.WHITE), new PositionImpl(0));
-	setPiece(new PieceImpl(Piece.KNIGHT, Piece.WHITE), new PositionImpl(1));
-	setPiece(new PieceImpl(Piece.BISHOP, Piece.WHITE), new PositionImpl(2));
-	setPiece(new PieceImpl(Piece.QUEEN, Piece.WHITE), new PositionImpl(3));
-	setPiece(new PieceImpl(Piece.KING, Piece.WHITE), new PositionImpl(4));
-	setPiece(new PieceImpl(Piece.BISHOP, Piece.WHITE), new PositionImpl(5));
-	setPiece(new PieceImpl(Piece.KNIGHT, Piece.WHITE), new PositionImpl(6));
-	setPiece(new PieceImpl(Piece.ROOK, Piece.WHITE), new PositionImpl(7));
-	setPiece(new PieceImpl(Piece.ROOK, Piece.BLACK), new PositionImpl(56));
-	setPiece(new PieceImpl(Piece.KNIGHT, Piece.BLACK), new PositionImpl(57));
-	setPiece(new PieceImpl(Piece.BISHOP, Piece.BLACK), new PositionImpl(58));
-	setPiece(new PieceImpl(Piece.QUEEN, Piece.BLACK), new PositionImpl(59));
-	setPiece(new PieceImpl(Piece.KING, Piece.BLACK), new PositionImpl(60));
-	setPiece(new PieceImpl(Piece.BISHOP, Piece.BLACK), new PositionImpl(61));
-	setPiece(new PieceImpl(Piece.KNIGHT, Piece.BLACK), new PositionImpl(62));
-	setPiece(new PieceImpl(Piece.ROOK, Piece.BLACK), new PositionImpl(63));
+	setPiece(new PieceImpl(IPiece.ROOK, IPiece.WHITE), new PositionImpl(0));
+	setPiece(new PieceImpl(IPiece.KNIGHT, IPiece.WHITE), new PositionImpl(1));
+	setPiece(new PieceImpl(IPiece.BISHOP, IPiece.WHITE), new PositionImpl(2));
+	setPiece(new PieceImpl(IPiece.QUEEN, IPiece.WHITE), new PositionImpl(3));
+	setPiece(new PieceImpl(IPiece.KING, IPiece.WHITE), new PositionImpl(4));
+	setPiece(new PieceImpl(IPiece.BISHOP, IPiece.WHITE), new PositionImpl(5));
+	setPiece(new PieceImpl(IPiece.KNIGHT, IPiece.WHITE), new PositionImpl(6));
+	setPiece(new PieceImpl(IPiece.ROOK, IPiece.WHITE), new PositionImpl(7));
+	setPiece(new PieceImpl(IPiece.ROOK, IPiece.BLACK), new PositionImpl(56));
+	setPiece(new PieceImpl(IPiece.KNIGHT, IPiece.BLACK), new PositionImpl(57));
+	setPiece(new PieceImpl(IPiece.BISHOP, IPiece.BLACK), new PositionImpl(58));
+	setPiece(new PieceImpl(IPiece.QUEEN, IPiece.BLACK), new PositionImpl(59));
+	setPiece(new PieceImpl(IPiece.KING, IPiece.BLACK), new PositionImpl(60));
+	setPiece(new PieceImpl(IPiece.BISHOP, IPiece.BLACK), new PositionImpl(61));
+	setPiece(new PieceImpl(IPiece.KNIGHT, IPiece.BLACK), new PositionImpl(62));
+	setPiece(new PieceImpl(IPiece.ROOK, IPiece.BLACK), new PositionImpl(63));
     }
 
     /**
@@ -124,7 +124,7 @@ public class BitBoardImpl implements BitBoard {
      * 
      * @return The piece of the square or null, of the square is empty.
      */
-    public final Piece getPiece( Position position) {
+    public final IPiece getPiece( Position position) {
 	int bitpos = position.getSquareIndex();
 
 	int pieceType = (((int)(_boardLayer[1] >> bitpos) & 1)
@@ -140,7 +140,7 @@ public class BitBoardImpl implements BitBoard {
      * @param piece The piece to set, or null to empty the square.
      * @param position The position of the square.
      */
-    public final void setPiece( Piece piece, Position position) {
+    public final void setPiece( IPiece piece, Position position) {
 	byte pieceCodeColor = ((piece == null) ? 0 : piece.getTypeAndColor());
 	long bitmask = 1L <<  position.getSquareIndex();
 	long bitFilter = ~bitmask;
@@ -160,13 +160,13 @@ public class BitBoardImpl implements BitBoard {
      *
      * @param ply The ply to perform.
      */
-    public final void doPly( Ply ply) {
-	Piece movedPiece = getPiece( ply.getSource());
+    public final void doPly( IPly ply) {
+	IPiece movedPiece = getPiece( ply.getSource());
 
 	// Check, if it was a castling
-	if( ply instanceof CastlingPly) {
+	if( ply instanceof ICastlingPly) {
 	    int offset = movedPiece.isWhite() ? 0 : 56;
-	    if( ( (CastlingPly)ply).isLeftCastling()) {
+	    if( ( (ICastlingPly)ply).isLeftCastling()) {
 		setPiece( movedPiece, new PositionImpl( 2 + offset));
 		// Move the rook to the right
 		doPly( new PlyImpl( new PositionImpl( 0 + offset), new PositionImpl( 3 + offset), false));
@@ -177,16 +177,16 @@ public class BitBoardImpl implements BitBoard {
 	    }
 	} else {
 	    // If a pawn has just reached the last row
-	    if(ply instanceof TransformationPly) {
+	    if(ply instanceof ITransformationPly) {
 		// Set a piece of the new type on the destination square.
-		setPiece( new PieceImpl( ( (TransformationPly)ply).getTypeAfterTransformation(), movedPiece.getColor()), ply.getDestination());
+		setPiece( new PieceImpl( ( (ITransformationPly)ply).getTypeAfterTransformation(), movedPiece.getColor()), ply.getDestination());
 	    } else {
 		// Copy the piece from source square to destination square.
 		setPiece( movedPiece, ply.getDestination());
 
 		// If it's a en passant ply, remove the attacked pawn.
-		if( ply instanceof EnPassantPly) {
-		    setPiece( null, ( (EnPassantPly)ply).getAttackedPosition());
+		if( ply instanceof IEnPassantPly) {
+		    setPiece( null, ( (IEnPassantPly)ply).getAttackedPosition());
 		}
 	    }
 	}
@@ -202,8 +202,8 @@ public class BitBoardImpl implements BitBoard {
      *
      * @return A new board with the game position after the ply.
      */
-    public final Board getBoardAfterPly( Ply ply) {
-	BitBoard newBoard = (BitBoard)clone();
+    public final Board getBoardAfterPly( IPly ply) {
+	IBitBoard newBoard = (IBitBoard)clone();
 	newBoard.doPly( ply);
 	return newBoard;
     }

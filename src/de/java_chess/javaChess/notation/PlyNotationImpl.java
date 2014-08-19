@@ -20,29 +20,29 @@
 
 package de.java_chess.javaChess.notation;
 
-import de.java_chess.javaChess.piece.Piece;
-import de.java_chess.javaChess.ply.CastlingPly;
-import de.java_chess.javaChess.ply.Ply;
-import de.java_chess.javaChess.ply.TransformationPly;
+import de.java_chess.javaChess.piece.IPiece;
+import de.java_chess.javaChess.ply.ICastlingPly;
+import de.java_chess.javaChess.ply.IPly;
+import de.java_chess.javaChess.ply.ITransformationPly;
 
 
 /**
  * This class holds all the methods to render a ply
  * as a string notation.
  */
-public class PlyNotationImpl implements PlyNotation {
+public class PlyNotationImpl implements IPlyNotation {
 
     // Instance variables.
 
     /**
      * The ply.
      */
-    private Ply _ply;
+    private IPly _ply;
 
     /**
      * The moved piece.
      */
-    private Piece _piece;
+    private IPiece _piece;
 
     /**
      * Flag to indicate, if this ply sets the opponent in check.
@@ -68,7 +68,7 @@ public class PlyNotationImpl implements PlyNotation {
      * @param ply The ply to render.
      * @param piece The moved piece.
      */
-    public PlyNotationImpl( Ply ply, Piece piece) {
+    public PlyNotationImpl( IPly ply, IPiece piece) {
 	setPly( ply);
 	setPiece( piece);
 
@@ -94,10 +94,10 @@ public class PlyNotationImpl implements PlyNotation {
     private final void computeStringRepresentation() {
 	StringBuffer notation = new StringBuffer();
 
-	if( ! ( getPly() instanceof CastlingPly)) {
+	if( ! ( getPly() instanceof ICastlingPly)) {
 
 	    // Start with the type of the piece, if it is not a pawn.
-	    if( getPiece().getType() != Piece.PAWN) {
+	    if( getPiece().getType() != IPiece.PAWN) {
 		notation.append( getPieceTypeNotation( getPiece().getType()));
 	    }
 
@@ -108,9 +108,9 @@ public class PlyNotationImpl implements PlyNotation {
 	    notation.append( isCapture() ? plyString.replace( '-', 'x') : plyString);
 
 	    // If it's a pawn transforming to a new piece type, append the new type.
-	    if( getPly() instanceof TransformationPly) {
+	    if( getPly() instanceof ITransformationPly) {
 		notation.append( "=");
-		notation.append( getPieceTypeNotation( ( (TransformationPly)getPly()).getTypeAfterTransformation()));
+		notation.append( getPieceTypeNotation( ( (ITransformationPly)getPly()).getTypeAfterTransformation()));
 	    }
 	} else {
 	    notation.append( getPly().toString());
@@ -134,7 +134,7 @@ public class PlyNotationImpl implements PlyNotation {
      *
      * @return The piece, that is moved with this ply.
      */
-    public final Piece getPiece() {
+    public final IPiece getPiece() {
 	return _piece;
     }
 
@@ -143,7 +143,7 @@ public class PlyNotationImpl implements PlyNotation {
      *
      * @param ply The moved ply.
      */
-    public final void setPiece( Piece piece) {
+    public final void setPiece( IPiece piece) {
 	_piece = piece;
     }
 
@@ -152,7 +152,7 @@ public class PlyNotationImpl implements PlyNotation {
      *
      * @return The ply for this notation.
      */
-    public final Ply getPly() {
+    public final IPly getPly() {
 	return _ply;
     }
 
@@ -161,7 +161,7 @@ public class PlyNotationImpl implements PlyNotation {
      *
      * @param ply The ply for this notation.
      */
-    public final void setPly( Ply ply) {
+    public final void setPly( IPly ply) {
 	_ply = ply;
     }
 
@@ -235,12 +235,12 @@ public class PlyNotationImpl implements PlyNotation {
 
 	// Convert the piece type to a string.
 	switch( pieceType) {
-	    case Piece.PAWN:   notation = "P"; break;
-	    case Piece.KNIGHT: notation = "N"; break; 
-	    case Piece.BISHOP: notation = "B"; break;
-	    case Piece.ROOK:   notation = "R"; break;
-   	    case Piece.QUEEN:  notation = "Q"; break;
-	    case Piece.KING:   notation = "K"; break;
+	    case IPiece.PAWN:   notation = "P"; break;
+	    case IPiece.KNIGHT: notation = "N"; break; 
+	    case IPiece.BISHOP: notation = "B"; break;
+	    case IPiece.ROOK:   notation = "R"; break;
+   	    case IPiece.QUEEN:  notation = "Q"; break;
+	    case IPiece.KING:   notation = "K"; break;
 	}
 	return notation;
     }

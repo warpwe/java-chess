@@ -32,7 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.renderer2d.ChessSet;
 import de.java_chess.javaChess.renderer2d.PieceRenderer;
 
@@ -44,7 +44,7 @@ import de.java_chess.javaChess.renderer2d.PieceRenderer;
  * @version 1.0
  */
 
-public class PieceSelectionPanel extends JPanel implements Piece, ActionListener {
+public class PieceSelectionPanel extends JPanel implements IPiece, ActionListener {
 
 		private SetupBoardDialog setupBoardDialog;
 		private GridBagLayout gblPieces = new GridBagLayout();
@@ -90,40 +90,40 @@ public class PieceSelectionPanel extends JPanel implements Piece, ActionListener
 	// Layout:
 	// -----------------------------------------------------------------------
 	this.setLayout(gblPieces);
-	this.add( _pieceButton[Piece.BLACK][Piece.PAWN]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.PAWN]
 			, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
 						 , GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 20, 0, 0), 0, 0));
-	this.add( _pieceButton[ Piece.WHITE][Piece.PAWN]
+	this.add( _pieceButton[ IPiece.WHITE][IPiece.PAWN]
 		 , new GridBagConstraints(0, 1, 2, 1, 0.0, 0.0
 						, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 20, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.BLACK][Piece.KNIGHT]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.KNIGHT]
 		 , new GridBagConstraints(1, 0, 2, 1, 1.0, 0.0
 						, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.BLACK][Piece.BISHOP]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.BISHOP]
 			, new GridBagConstraints(3, 0, 1, 1, 1.0, 0.0
 						 , GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.BLACK][Piece.ROOK]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.ROOK]
 			, new GridBagConstraints(4, 0, 1, 1, 1.0, 0.0
 						 , GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.BLACK][Piece.QUEEN]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.QUEEN]
 		 , new GridBagConstraints(5, 0, 1, 1, 1.0, 0.0
 						, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.BLACK][Piece.KING]
+	this.add( _pieceButton[IPiece.BLACK][IPiece.KING]
 			, new GridBagConstraints(6, 0, 1, 1, 1.0, 0.0
 						 , GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.WHITE][Piece.KNIGHT]
+	this.add( _pieceButton[IPiece.WHITE][IPiece.KNIGHT]
 			, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
 						 , GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.WHITE][Piece.BISHOP]
+	this.add( _pieceButton[IPiece.WHITE][IPiece.BISHOP]
 			, new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 						 , GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.WHITE][Piece.ROOK]
+	this.add( _pieceButton[IPiece.WHITE][IPiece.ROOK]
 		 ,  new GridBagConstraints(4, 1, 1, 1, 0.0, 0.0
 						 ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add( _pieceButton[Piece.WHITE][Piece.QUEEN]
+	this.add( _pieceButton[IPiece.WHITE][IPiece.QUEEN]
 			, new GridBagConstraints(5, 1, 1, 1, 0.0, 0.0
 						 ,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
-	this.add(_pieceButton[Piece.WHITE][Piece.KING]
+	this.add(_pieceButton[IPiece.WHITE][IPiece.KING]
 		 , new GridBagConstraints(6, 1, 1, 1, 0.0, 0.0
 						,GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(0, 0, 0, 0), 0, 0));
 
@@ -154,7 +154,7 @@ public class PieceSelectionPanel extends JPanel implements Piece, ActionListener
 		public Image getSelectedPieceImage() {
 	byte type = this.getType();
 	if( type == 0) {
-			type = Piece.KING;
+			type = IPiece.KING;
 	}
 
 	// To avoid the instanciation of a image each time, just reuse
@@ -232,7 +232,7 @@ public class PieceSelectionPanel extends JPanel implements Piece, ActionListener
 			{
 				byte type = this.getType();
 				if( type == 0)
-						type = Piece.KING;
+						type = IPiece.KING;
 
 				this.jlSelectedPieceImage.setIcon( _pieceIcon[this.getColor()][type] );
 			}

@@ -20,7 +20,7 @@
 
 package de.java_chess.javaChess.pgn;
 
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -240,12 +240,12 @@ public class PGNPlyFragment {
      * @return The piece type or -1, if it was no valid figurine letter code.
      */
     private final byte getPieceTypeFromLetter(  char letter) {
-	if( letter == 'P') { return Piece.PAWN; }
-	if( letter == 'N') { return Piece.KNIGHT; }
-	if( letter == 'B') { return Piece.BISHOP; }
-	if( letter == 'R') { return Piece.ROOK; }
-	if( letter == 'Q') { return Piece.QUEEN; }
-	if( letter == 'K') { return Piece.KING; }
+	if( letter == 'P') { return IPiece.PAWN; }
+	if( letter == 'N') { return IPiece.KNIGHT; }
+	if( letter == 'B') { return IPiece.BISHOP; }
+	if( letter == 'R') { return IPiece.ROOK; }
+	if( letter == 'Q') { return IPiece.QUEEN; }
+	if( letter == 'K') { return IPiece.KING; }
 	return (byte)-1;
     }
 }

@@ -27,7 +27,7 @@ import de.java_chess.javaChess.position.Position;
  * This interface is for pawn plies, that attack a pawn
  * en passant.
  */
-public interface EnPassantPly extends Ply {
+public interface IEnPassantPly extends IPly {
 
     // Methods
 

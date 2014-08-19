@@ -22,7 +22,7 @@
 package de.java_chess.javaChess.engine.hashtable;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -52,7 +52,7 @@ public interface PlyHashtableEntry {
      *
      * @return The ply.
      */
-    Ply getPly();
+    IPly getPly();
 
     /**
      * Get the search depth for the computed ply.

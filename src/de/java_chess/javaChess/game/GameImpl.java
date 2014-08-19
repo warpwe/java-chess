@@ -23,7 +23,7 @@ package de.java_chess.javaChess.game;
 
 import java.util.Iterator;
 
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.util.UnsynchronizedArrayStack;
 
@@ -32,7 +32,7 @@ import de.java_chess.javaChess.util.UnsynchronizedArrayStack;
  * This class stores a complete chess game and provides access
  * to all the game stages.
  */
-public class GameImpl implements Game {
+public class GameImpl implements IGame {
 
     // Inner classes
 
@@ -46,7 +46,7 @@ public class GameImpl implements Game {
 	/**
 	 * The ply that lead to this status.
 	 */
-	Ply _ply;
+	IPly _ply;
 
 	/**
 	 * This bitmap indicates the pieces, that
@@ -63,7 +63,7 @@ public class GameImpl implements Game {
 	 * @param ply The ply for this game status.
 	 * @param bitmask The moved pieces _before_ this ply.
 	 */
-	GameStatus( Ply ply, long bitmask) {
+	GameStatus( IPly ply, long bitmask) {
 
 	    // Store the ply in an instance variable.
 	    setPly( ply);
@@ -80,7 +80,7 @@ public class GameImpl implements Game {
 	 *
 	 * @param ply The first ply of this game.
 	 */
-	GameStatus( Ply ply) {
+	GameStatus( IPly ply) {
 	    
 	    // Construct a new instance from this ply and all
 	    // pieces on their initial positions.
@@ -92,7 +92,7 @@ public class GameImpl implements Game {
 	 *
 	 * @param status The previous game status.
 	 */
-	GameStatus( Ply ply, GameStatus previousStatus) {
+	GameStatus( IPly ply, GameStatus previousStatus) {
 
 	    // Create a new instance from this ply and the
 	    // previous game status.
@@ -106,7 +106,7 @@ public class GameImpl implements Game {
 	 *
 	 * @return The ply, that lead to this game status.
 	 */
-	final Ply getPly() {
+	final IPly getPly() {
 	    return _ply;
 	}
 
@@ -115,7 +115,7 @@ public class GameImpl implements Game {
 	 *
 	 * @param ply The ply, that lead to this game status.
 	 */
-	final void setPly( Ply ply) {
+	final void setPly( IPly ply) {
 	    _ply = ply;
 	}
 	
@@ -200,7 +200,7 @@ public class GameImpl implements Game {
      *
      * @param ply The next ply.
      */
-    public final void doPly( Ply ply) {
+    public final void doPly( IPly ply) {
 
 	// Add a new game status, that derives from the previous status.
 	_gameStatus.push(getLastGameStatus() == null? new GameStatus( ply) : new GameStatus( ply, getLastGameStatus()));
@@ -229,7 +229,7 @@ public class GameImpl implements Game {
      *
      * @return The last ply.
      */
-    public final Ply getLastPly() {
+    public final IPly getLastPly() {
 	GameStatus lastStatus = getLastGameStatus();
 	return lastStatus == null ? null : lastStatus.getPly();
     }

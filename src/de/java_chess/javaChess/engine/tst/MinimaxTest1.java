@@ -21,13 +21,13 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
-import de.java_chess.javaChess.engine.ChessEngine;
+import de.java_chess.javaChess.engine.IChessEngine;
 import de.java_chess.javaChess.engine.ChessEngineImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -45,18 +45,18 @@ public class MinimaxTest1 extends TestCase {
     /**
      * The current game.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * The chess board.
      */
-    BitBoard _board;
+    IBitBoard _board;
 
 
     /**
      * The chess engine.
      */
-    ChessEngine _engine;
+    IChessEngine _engine;
 
     
     // Constructors
@@ -111,7 +111,7 @@ public class MinimaxTest1 extends TestCase {
     public void testminimax1() {
 
 	// Compute the best ply for this game position.
-	Ply bestPly = _engine.computeBestPly();
+	IPly bestPly = _engine.computeBestPly();
 
 	// Check if e7 - e5 was delivered as the best ply.
 	assertTrue( "Engine computed invalid ply e7-e5"
@@ -124,7 +124,7 @@ public class MinimaxTest1 extends TestCase {
      *
      * @param ply The ply to perform.
      */
-    private void doPly( Ply ply) {
+    private void doPly( IPly ply) {
 	_game.doPly( ply);
 	_board.doPly( ply);
     }

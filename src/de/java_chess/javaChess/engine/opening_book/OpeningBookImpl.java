@@ -31,11 +31,11 @@ import javax.swing.JOptionPane;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.pgn.PGNFile;
-import de.java_chess.javaChess.ply.AnalyzedPly;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
 import de.java_chess.javaChess.ply.AnalyzedPlyImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -48,7 +48,7 @@ public class OpeningBookImpl implements OpeningBook {
     /**
      * The current game.
      */
-    private GameNotation _notation = null;
+    private IGameNotation _notation = null;
 
     /**
      * All the known openings with their notations.
@@ -68,7 +68,7 @@ public class OpeningBookImpl implements OpeningBook {
      *
      * @param notation The notation of the current game.
      */
-    public OpeningBookImpl( GameNotation notation) {
+    public OpeningBookImpl( IGameNotation notation) {
 	setNotation( notation);
 
 	// Create a new dynamic array for the openings.
@@ -86,7 +86,7 @@ public class OpeningBookImpl implements OpeningBook {
      *
      * @param ply The user ply.
      */
-    public final void doUserPly( Ply ply) {
+    public final void doUserPly( IPly ply) {
 
 	// If we are already in a opening, check if the current user
 	// move doesn't lead us out of the opening line.
@@ -104,7 +104,7 @@ public class OpeningBookImpl implements OpeningBook {
      * @return The next ply from the opening book, or null 
      *         if there's no ply available.
      */
-    public final AnalyzedPly getOpeningBookPly() {
+    public final IAnalyzedPly getOpeningBookPly() {
 
 	// If we have no opening yet, try to find one.
 	if( _currentOpening == -1) {
@@ -116,7 +116,7 @@ public class OpeningBookImpl implements OpeningBook {
 	    // Check, if we have another ply in the opening.
 	    int pliesMade = _notation.size();
 
-	    GameNotation currentOpening = (GameNotation)( _openings.get( _currentOpening));
+	    IGameNotation currentOpening = (IGameNotation)( _openings.get( _currentOpening));
 
 	    if( currentOpening.size() > pliesMade) {
 		return new AnalyzedPlyImpl( currentOpening.getPlyNotation( pliesMade).getPly(), (short)0);
@@ -142,7 +142,7 @@ public class OpeningBookImpl implements OpeningBook {
     public final void addPGNopening( File file) {
 	try {
 	    PGNFile pgnFile = new PGNFile( new BufferedReader( new FileReader( file)));
-	    GameNotation notation = pgnFile.readGame();
+	    IGameNotation notation = pgnFile.readGame();
 	    _openings.add( notation);
 
 	    // System.out.println( "DEBUG: added opening \n" + notation.toString());
@@ -178,7 +178,7 @@ public class OpeningBookImpl implements OpeningBook {
      * @param openingIndex The index of the opening to test.
      */
     private final boolean isInOpening( int openingIndex) {
-	GameNotation notation = (GameNotation)_openings.get( openingIndex);
+	IGameNotation notation = (IGameNotation)_openings.get( openingIndex);
 
 	// If the current game has more plies, than the opening, we can return
 	// false.
@@ -203,7 +203,7 @@ public class OpeningBookImpl implements OpeningBook {
      *
      * @return The notation of the current game.
      */
-    private final GameNotation getNotation() {
+    private final IGameNotation getNotation() {
 	return _notation;
     }
 
@@ -212,7 +212,7 @@ public class OpeningBookImpl implements OpeningBook {
      *
      * @param notation The notation of the current game.
      */
-    private final void setNotation( GameNotation notation) {
+    private final void setNotation( IGameNotation notation) {
 	_notation = notation;
     }
 }

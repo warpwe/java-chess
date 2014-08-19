@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JFileChooser;
 
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.pgn.PGNFileFilter;
 
 
@@ -48,7 +48,7 @@ public class SaveGameAsAction extends SaveGameAction {
      *
      * @param gameNotation The notation of the game.
      */
-    public SaveGameAsAction( GameNotation gameNotation) {
+    public SaveGameAsAction( IGameNotation gameNotation) {
 	super( "Save game as...", gameNotation);
 	_gameNotation = gameNotation;
     }

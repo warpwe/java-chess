@@ -26,7 +26,7 @@ import de.java_chess.javaChess.position.Position;
 /**
  * This interface has to be implemented by any ply.
  */
-public interface Ply {
+public interface IPly {
 
     // Static variables
 
@@ -75,5 +75,5 @@ public interface Ply {
      *
      * @return true, if the 2 plies are equal. False otherwise.
      */
-    boolean equals( Ply ply);
+    boolean equals( IPly ply);
 }

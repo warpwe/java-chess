@@ -22,7 +22,7 @@
 package de.java_chess.javaChess.engine.hashtable;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -72,7 +72,7 @@ public interface PlyHashtable {
      * @param board The board before the move.
      * @param white Flag to indicate, if we want a move with the white pieces.
      */
-    Ply getPly( Board board, boolean white);
+    IPly getPly( Board board, boolean white);
 
     /**
      * Try to remove the oldest entry.

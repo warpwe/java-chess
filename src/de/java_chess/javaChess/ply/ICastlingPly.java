@@ -24,7 +24,7 @@ package de.java_chess.javaChess.ply;
 /**
  * This interface defines the functionality for a castling ply.
  */
-public interface CastlingPly extends Ply {
+public interface ICastlingPly extends IPly {
 
     // Static variables
 

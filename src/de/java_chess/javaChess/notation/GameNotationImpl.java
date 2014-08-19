@@ -32,7 +32,7 @@ import de.java_chess.javaChess.renderer2d.NotationPanel;
  * This class implements the functionality to notate an 
  * entire game.
  */
-public class GameNotationImpl implements GameNotation {
+public class GameNotationImpl implements IGameNotation {
 
     // Instance variables
 
@@ -121,7 +121,7 @@ public class GameNotationImpl implements GameNotation {
      *
      * @param plyNotation The notation of the new ply.
      */
-    public void addPly( PlyNotation plyNotation) {
+    public void addPly( IPlyNotation plyNotation) {
 	_plies.add( plyNotation);
 	
 	int nPlies = _plies.size();  // Get the number of plies.
@@ -145,8 +145,8 @@ public class GameNotationImpl implements GameNotation {
      *
      * @param index The index of the ply.
      */
-    public PlyNotation getPlyNotation( int index) {
-	return (PlyNotation)( _plies.get( index));
+    public IPlyNotation getPlyNotation( int index) {
+	return (IPlyNotation)( _plies.get( index));
     }
 
     /**

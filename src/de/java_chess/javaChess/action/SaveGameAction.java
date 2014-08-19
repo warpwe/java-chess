@@ -26,7 +26,7 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.pgn.PGNOutputStream;
 
 
@@ -40,7 +40,7 @@ public class SaveGameAction extends JavaChessAction {
     /**
      * A game notation object.
      */
-    GameNotation _gameNotation;
+    IGameNotation _gameNotation;
 
 
     // Constructors
@@ -50,7 +50,7 @@ public class SaveGameAction extends JavaChessAction {
      *
      * @param gameNotation The game notation.
      */
-    public SaveGameAction(  GameNotation gameNotation) {
+    public SaveGameAction(  IGameNotation gameNotation) {
 	super( "Save game");
 	_gameNotation = gameNotation;
     }
@@ -61,7 +61,7 @@ public class SaveGameAction extends JavaChessAction {
      * @param name The name of the action.
      * @param gameNotation The notation of the game.
      */
-    SaveGameAction( String name, GameNotation gameNotation) {
+    SaveGameAction( String name, IGameNotation gameNotation) {
 	super( "Save Game as...");
 	_gameNotation = gameNotation;
     }

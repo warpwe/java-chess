@@ -10,14 +10,14 @@ import antlr.Token;
 import antlr.TokenBuffer;
 import antlr.TokenStream;
 import antlr.TokenStreamException;
-import de.java_chess.javaChess.notation.GameNotation;
-import de.java_chess.javaChess.notation.PlyNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
+import de.java_chess.javaChess.notation.IPlyNotation;
 
 /**
  * A parser for PGN (Portable Game Notation) files.
  */
 public class PGNParser extends antlr.LLkParser
-       implements PGNTokenTypes
+       implements IPgnTokenTypes
  {
 
 	/**
@@ -28,14 +28,14 @@ public class PGNParser extends antlr.LLkParser
 	/**
 	 * The buffer for the game notation.
 	 */
-	private GameNotation _notation;
+	private IGameNotation _notation;
 
 	/**
 	 * Set a new buffer for the game notation.
   	 *
 	 * @param notation The new notation buffer.
 	 */
-	public final void setNotation( GameNotation notation) {
+	public final void setNotation( IGameNotation notation) {
 	    _notation = notation;
 	}
 
@@ -44,7 +44,7 @@ public class PGNParser extends antlr.LLkParser
 	 *
 	 * @return The current notation.
 	 */
-	public final GameNotation getNotation() {
+	public final IGameNotation getNotation() {
 	    return _notation;
 	}
 
@@ -95,7 +95,7 @@ public PGNParser(ParserSharedInputState state) {
 }
 
 	public final void pgnGame(
-		 GameNotation notationBuffer
+		 IGameNotation notationBuffer
 	) throws RecognitionException, TokenStreamException {
 		
 		
@@ -295,7 +295,7 @@ public PGNParser(ParserSharedInputState state) {
 	public final void move() throws RecognitionException, TokenStreamException {
 		
 		Token  mI = null;
-		PlyNotation notation = null;
+		IPlyNotation notation = null;
 		
 		mI = LT(1);
 		match(MOVE_INDEX);
@@ -310,8 +310,8 @@ public PGNParser(ParserSharedInputState state) {
 		whiteSpaces();
 	}
 	
-	public final PlyNotation  ply() throws RecognitionException, TokenStreamException {
-		PlyNotation notation = null;
+	public final IPlyNotation  ply() throws RecognitionException, TokenStreamException {
+		IPlyNotation notation = null;
 		
 		Token  lc = null;
 		Token  snOrg = null;

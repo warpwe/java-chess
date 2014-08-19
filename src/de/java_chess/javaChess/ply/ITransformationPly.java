@@ -26,7 +26,7 @@ package de.java_chess.javaChess.ply;
  * This interface is for pawn plies, that reach the last row
  * and transform into a new piece type.
  */
-public interface TransformationPly extends Ply {
+public interface ITransformationPly extends IPly {
 
     // Methods
 

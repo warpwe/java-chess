@@ -31,7 +31,7 @@ import javax.swing.JOptionPane;
 
 import antlr.RecognitionException;
 import antlr.TokenStreamException;
-import de.java_chess.javaChess.notation.GameNotation;
+import de.java_chess.javaChess.notation.IGameNotation;
 import de.java_chess.javaChess.pgn.PGNFile;
 
 /**
@@ -74,7 +74,7 @@ public class LoadGameAction extends JavaChessAction {
 			try {
 				PGNFile pgnFile = new PGNFile(new BufferedReader(
 						new FileReader(file)));
-				GameNotation notation = pgnFile.readGame();
+				IGameNotation notation = pgnFile.readGame();
 			} catch (FileNotFoundException fe) {
 				JOptionPane.showMessageDialog(null, "File " + file.getName()
 						+ " not found!", "File not found",

@@ -20,16 +20,16 @@
 
 package de.java_chess.javaChess.engine;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtable;
-import de.java_chess.javaChess.game.Game;
-import de.java_chess.javaChess.piece.Piece;
-import de.java_chess.javaChess.ply.AnalyzedPly;
+import de.java_chess.javaChess.game.IGame;
+import de.java_chess.javaChess.piece.IPiece;
+import de.java_chess.javaChess.ply.IAnalyzedPly;
 import de.java_chess.javaChess.ply.AnalyzedPlyImpl;
 import de.java_chess.javaChess.ply.CastlingPlyImpl;
 import de.java_chess.javaChess.ply.EnPassantPlyImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.ply.TransformationPlyImpl;
 import de.java_chess.javaChess.position.Position;
@@ -65,7 +65,7 @@ public class PlyGenerator {
     /**
      * The current game.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * A hashtable with already computed plies.
@@ -75,7 +75,7 @@ public class PlyGenerator {
     /**
      * The current board.
      */
-    BitBoard _board;
+    IBitBoard _board;
 
     /**
      * A analyzer to check for chess (needed for castling)
@@ -85,7 +85,7 @@ public class PlyGenerator {
     /**
      * An array for the current plies to avoid the overhead of dynamic data structures.
      */
-    AnalyzedPly [] _currentPlies = new AnalyzedPlyImpl[150];
+    IAnalyzedPly [] _currentPlies = new AnalyzedPlyImpl[150];
 
     /**
      * A counter for the currently computed plies.
@@ -121,7 +121,7 @@ public class PlyGenerator {
      * @param game The current game.
      * @param hashtable A hashtable to store the best plies so far.
      */
-    public PlyGenerator( Game game, PlyHashtable hashtable) {
+    public PlyGenerator( IGame game, PlyHashtable hashtable) {
 	setGame( game);
 	setHashtable( hashtable);
 	precomputeKnightPlies();
@@ -136,7 +136,7 @@ public class PlyGenerator {
      * @param board The board to operate on.
      * @param hashtable A hashtable to store the best plies so far.
      */
-    public PlyGenerator( Game game, BitBoard board, PlyHashtable hashtable) {
+    public PlyGenerator( IGame game, IBitBoard board, PlyHashtable hashtable) {
 	this( game, hashtable);
 	setBoard( board);
     }
@@ -149,7 +149,7 @@ public class PlyGenerator {
      *
      * @return The current game.
      */
-    public final Game getGame() {
+    public final IGame getGame() {
 	return _game;
     }
 
@@ -158,7 +158,7 @@ public class PlyGenerator {
      *
      * @param The current game.
      */
-    public final void setGame( Game game) {
+    public final void setGame( IGame game) {
 	_game = game;
     }
 
@@ -189,7 +189,7 @@ public class PlyGenerator {
      * @param board The board with the game position.
      * @param white true, if white has the next move.
      */
-    public final Ply [] getPliesForColor( BitBoard board, boolean white) {
+    public final IPly [] getPliesForColor( IBitBoard board, boolean white) {
 	setBoard( board);
 	return getPliesForColor( white);
     }
@@ -199,13 +199,13 @@ public class PlyGenerator {
      *
      * @param white true, if white has the next move.
      */
-    public final Ply [] getPliesForColor( boolean white) {
+    public final IPly [] getPliesForColor( boolean white) {
 	resetPlies();
 	_white = white;  // Store the color of the current player.
 
 	// Compute some bitmasks, so we don't have to compute them again for each piece type.
 	_emptySquares = getBoard().getEmptySquares(); // Get the positions of the empty squares.
-	_attackablePieces = getBoard().getAllPiecesForColor( ! _white) & ~getBoard().getPositionOfPieces( Piece.KING << 1 | ( _white ? 0 : 1));
+	_attackablePieces = getBoard().getAllPiecesForColor( ! _white) & ~getBoard().getPositionOfPieces( IPiece.KING << 1 | ( _white ? 0 : 1));
 
 	// Add the possible plies for all piece types.
 	// I tried to sort this list according to the probality for a check, so
@@ -218,7 +218,7 @@ public class PlyGenerator {
 	addPliesForKing();
 
 	// Check, if there's a good ply for this board in the hash table.
-	Ply hashtablePly = getHashtable().getPly( getBoard(), _white);
+	IPly hashtablePly = getHashtable().getPly( getBoard(), _white);
 	if( hashtablePly != null) {  // If so, increase the score of this ply.
 	    for( int index = 0; index < _plyCounter; index++) {
 		if( _currentPlies[index].getPly().equals( hashtablePly)) {
@@ -232,7 +232,7 @@ public class PlyGenerator {
 	presortPlies();
 
 	// Convert the plies to a array of the correct size
-	Ply [] plies = new Ply[ _plyCounter];
+	IPly [] plies = new IPly[ _plyCounter];
 	int destIndex = 0;
 	for( int sourceIndex = (_plyCounter - 1); sourceIndex >= 0; ) {
 	    plies[ destIndex++] = _currentPlies[ sourceIndex--].getPly();
@@ -248,20 +248,20 @@ public class PlyGenerator {
 
 	if( _white) {
 	    // Get the positions of all pawns
-	    long pawnPos = getBoard().getPositionOfPieces( Piece.PAWN << 1 | 1);
+	    long pawnPos = getBoard().getPositionOfPieces( IPiece.PAWN << 1 | 1);
 
 	    // Add all the diagonal attacks
-	    addRelativePliesUpward( ( ( pawnPos & BitBoard._NOT_LINE_H) << 9) & _attackablePieces, 17, 63, -9);
-	    addRelativePliesUpward( ( ( pawnPos & BitBoard._NOT_LINE_A) << 7) & _attackablePieces, 16, 62, -7);
+	    addRelativePliesUpward( ( ( pawnPos & IBitBoard._NOT_LINE_H) << 9) & _attackablePieces, 17, 63, -9);
+	    addRelativePliesUpward( ( ( pawnPos & IBitBoard._NOT_LINE_A) << 7) & _attackablePieces, 16, 62, -7);
 
 	    // Check for a en-passent attack
 	    if( getLastPly() != null) {
 		Position destination = getLastPly().getDestination();
-		Piece piece = getBoard().getPiece( destination);
+		IPiece piece = getBoard().getPiece( destination);
 
 		// The check for the color is sorta redundant, but during analysis the
 		// order of moves might be incorrect.
-		if( piece != null && piece.getType() == Piece.PAWN && piece.getColor() == Piece.BLACK) {
+		if( piece != null && piece.getType() == IPiece.PAWN && piece.getColor() == IPiece.BLACK) {
 		    int sourceIndex = getLastPly().getSource().getSquareIndex();
 		    int destinationIndex = getLastPly().getDestination().getSquareIndex();
 
@@ -273,14 +273,14 @@ public class PlyGenerator {
 			long attackablePawnBitmask = ( 1L << attackableIndex);
 
 			// Add the en passant attacks.
-			if( ( ( ( pawnPos & BitBoard._NOT_LINE_H) << 9) & attackablePawnBitmask) != 0L) {
+			if( ( ( ( pawnPos & IBitBoard._NOT_LINE_H) << 9) & attackablePawnBitmask) != 0L) {
 			    addPly( new EnPassantPlyImpl( new PositionImpl( attackableIndex - 9)
 			                 	          , new PositionImpl( attackableIndex)
 				                          , new PositionImpl( destinationIndex))
 				    , MATERIAL_WIN);
 			}
 			// Add the en passant attacks. W.E 20140728 _NOT_LINE_A
-			if( ( ( ( pawnPos & BitBoard._NOT_LINE_A) << 7) & attackablePawnBitmask) != 0L) {
+			if( ( ( ( pawnPos & IBitBoard._NOT_LINE_A) << 7) & attackablePawnBitmask) != 0L) {
 			    addPly( new EnPassantPlyImpl( new PositionImpl( attackableIndex - 7)
 			                 	          , new PositionImpl( attackableIndex)
 				                          , new PositionImpl( destinationIndex))
@@ -292,14 +292,14 @@ public class PlyGenerator {
 
 	    // Add all the 2 square plies. Since the square in front of the pawn has to be free, I have to
 	    // add the bit and with the shifted empty squares.
-	    addRelativePliesUpward( ( (pawnPos & BitBoard._ROW_2 & ( _emptySquares >>> 8) ) << 16) & _emptySquares, 24, 31, -16);
+	    addRelativePliesUpward( ( (pawnPos & IBitBoard._ROW_2 & ( _emptySquares >>> 8) ) << 16) & _emptySquares, 24, 31, -16);
 
 	    // Add all the 1 square plies.
 	    long movedPawns = (pawnPos << 8) & _emptySquares;
-	    addRelativePliesUpward( movedPawns & BitBoard._NOT_ROW_8, 16, 55, -8);
+	    addRelativePliesUpward( movedPawns & IBitBoard._NOT_ROW_8, 16, 55, -8);
 	    
 	    // Now take care of the last row.
-	    movedPawns &= BitBoard._ROW_8;
+	    movedPawns &= IBitBoard._ROW_8;
 	    while( movedPawns != 0L) {
 		int destinationSquare = BitUtils.getHighestBit( movedPawns);
 		int sourceSquare = destinationSquare - 8;
@@ -308,29 +308,29 @@ public class PlyGenerator {
 
 		boolean capture = ( ( ( 1L << destinationSquare) & _attackablePieces) != 0L);
 
-		addTransformationPly( sourceSquare, destinationSquare, Piece.QUEEN, capture, QUEEN_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.KNIGHT, capture, KNIGHT_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.ROOK, capture, ROOK_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.BISHOP, capture, BISHOP_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.QUEEN, capture, QUEEN_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.KNIGHT, capture, KNIGHT_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.ROOK, capture, ROOK_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.BISHOP, capture, BISHOP_TRANSFORMATION);
 
 		movedPawns &= ~( 1L << destinationSquare);
 	    }
 	} else {
 	    // Get the positions of all pawns
-	    long pawnPos = getBoard().getPositionOfPieces( Piece.PAWN << 1);
+	    long pawnPos = getBoard().getPositionOfPieces( IPiece.PAWN << 1);
 
 	    // Add all the diagonal attacks
-	    addRelativePliesDownward( ( ( pawnPos & BitBoard._NOT_LINE_A) >>> 9) & _attackablePieces, 46, 0, 9);
-	    addRelativePliesDownward( ( ( pawnPos & BitBoard._NOT_LINE_H) >>> 7) & _attackablePieces, 47, 0, 7);
+	    addRelativePliesDownward( ( ( pawnPos & IBitBoard._NOT_LINE_A) >>> 9) & _attackablePieces, 46, 0, 9);
+	    addRelativePliesDownward( ( ( pawnPos & IBitBoard._NOT_LINE_H) >>> 7) & _attackablePieces, 47, 0, 7);
 
 	    // Check for a en-passent attack
 	    if( getLastPly() != null) {
 		Position destination = getLastPly().getDestination();
-		Piece piece = getBoard().getPiece( destination);
+		IPiece piece = getBoard().getPiece( destination);
 
 		// The check for the color is sorta redundant, but during analysis the
 		// order of moves might be incorrect.
-		if( piece != null && piece.getType() == Piece.PAWN && piece.getColor() == Piece.BLACK) {
+		if( piece != null && piece.getType() == IPiece.PAWN && piece.getColor() == IPiece.BLACK) {
 		    int sourceIndex = getLastPly().getSource().getSquareIndex();
 		    int destinationIndex = getLastPly().getDestination().getSquareIndex();
 
@@ -342,14 +342,14 @@ public class PlyGenerator {
 			long attackablePawnBitmask = ( 1L << attackableIndex);
 
 			// Add the en passant attacks. W.E. 20140728
-			if( ( ( ( pawnPos & BitBoard._NOT_LINE_A) >>> 9) & attackablePawnBitmask) != 0L) {
+			if( ( ( ( pawnPos & IBitBoard._NOT_LINE_A) >>> 9) & attackablePawnBitmask) != 0L) {
 			    addPly( new EnPassantPlyImpl( new PositionImpl( attackableIndex + 9)
 			                 	          , new PositionImpl( attackableIndex)
 				                          , new PositionImpl( destinationIndex))
 				    , MATERIAL_WIN);
 			}
 			// Add the en passant attacks.
-			if( ( ( ( pawnPos & BitBoard._NOT_LINE_H) >>> 7) & attackablePawnBitmask) != 0L) {
+			if( ( ( ( pawnPos & IBitBoard._NOT_LINE_H) >>> 7) & attackablePawnBitmask) != 0L) {
 			    addPly( new EnPassantPlyImpl( new PositionImpl( attackableIndex + 7)
 			                 	          , new PositionImpl( attackableIndex)
 				                          , new PositionImpl( destinationIndex))
@@ -361,14 +361,14 @@ public class PlyGenerator {
 
 	    // Add all the 2 square plies. Since the square in front of the pawn has to be free, I have to
 	    // add the bit and with the shifted empty squares.
-	    addRelativePliesDownward( ( ( pawnPos & BitBoard._ROW_7 & ( _emptySquares << 8) ) >>> 16) & _emptySquares, 39, 32, 16);
+	    addRelativePliesDownward( ( ( pawnPos & IBitBoard._ROW_7 & ( _emptySquares << 8) ) >>> 16) & _emptySquares, 39, 32, 16);
 
 	    // Add all the 1 square plies.
 	    long movedPawns = (pawnPos >>> 8) & _emptySquares;
-	    addRelativePliesDownward( movedPawns & BitBoard._NOT_ROW_1, 56, 8, 8);
+	    addRelativePliesDownward( movedPawns & IBitBoard._NOT_ROW_1, 56, 8, 8);
 	    
 	    // Now take care of the last row.
-	    movedPawns &= BitBoard._ROW_1;
+	    movedPawns &= IBitBoard._ROW_1;
 	    while( movedPawns != 0L) {
 		int destinationSquare = BitUtils.getHighestBit( movedPawns);
 		int sourceSquare = destinationSquare + 8;
@@ -377,10 +377,10 @@ public class PlyGenerator {
 
 		boolean capture = ( ( ( 1L << destinationSquare) & _attackablePieces) != 0L);
 
-		addTransformationPly( sourceSquare, destinationSquare, Piece.QUEEN, capture, QUEEN_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.KNIGHT, capture, KNIGHT_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.ROOK, capture, ROOK_TRANSFORMATION);
-		addTransformationPly( sourceSquare, destinationSquare, Piece.BISHOP, capture, BISHOP_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.QUEEN, capture, QUEEN_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.KNIGHT, capture, KNIGHT_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.ROOK, capture, ROOK_TRANSFORMATION);
+		addTransformationPly( sourceSquare, destinationSquare, IPiece.BISHOP, capture, BISHOP_TRANSFORMATION);
 
 		movedPawns &= ~( 1L << destinationSquare);
 	    }
@@ -434,7 +434,7 @@ public class PlyGenerator {
      * Add all the plies for knights of the current color.
      */
     private final void addPliesForKnights() {
-	long knightPositions = getBoard().getPositionOfPieces( _white ? Piece.KNIGHT << 1 | 1 : Piece.KNIGHT << 1 );
+	long knightPositions = getBoard().getPositionOfPieces( _white ? IPiece.KNIGHT << 1 | 1 : IPiece.KNIGHT << 1 );
 	
 	while( knightPositions != 0) {
 	    int highestBit = BitUtils.getHighestBit( knightPositions);
@@ -456,7 +456,7 @@ public class PlyGenerator {
      * Add the plies for bishops.
      */
     public final void addPliesForBishops() {
-	long bishopPositions = getBoard().getPositionOfPieces( _white ? Piece.BISHOP << 1 | 1 : Piece.BISHOP << 1);
+	long bishopPositions = getBoard().getPositionOfPieces( _white ? IPiece.BISHOP << 1 | 1 : IPiece.BISHOP << 1);
 
 	while( bishopPositions != 0) {
 	    int highestBit = BitUtils.getHighestBit( bishopPositions);
@@ -574,7 +574,7 @@ public class PlyGenerator {
      * Add the plies for rooks.
      */
     public final void addPliesForRooks() {
-	long rookPositions = getBoard().getPositionOfPieces( _white ? Piece.ROOK << 1 | 1 : Piece.ROOK << 1);
+	long rookPositions = getBoard().getPositionOfPieces( _white ? IPiece.ROOK << 1 | 1 : IPiece.ROOK << 1);
 
 	while( rookPositions != 0) {
 	    int highestBit = BitUtils.getHighestBit( rookPositions);
@@ -679,7 +679,7 @@ public class PlyGenerator {
      * Add the plies for queens.
      */
     public final void addPliesForQueens() {
-	long queenPositions = getBoard().getPositionOfPieces( _white ? Piece.QUEEN << 1 | 1 : Piece.QUEEN << 1);
+	long queenPositions = getBoard().getPositionOfPieces( _white ? IPiece.QUEEN << 1 | 1 : IPiece.QUEEN << 1);
 
 	while( queenPositions != 0) {
 	    int highestBit = BitUtils.getHighestBit( queenPositions);
@@ -706,11 +706,11 @@ public class PlyGenerator {
      */
     @SuppressWarnings("unused")
 	private final void addPliesForKing() {
-	long opponentKingPosition = getBoard().getPositionOfPieces( _white ? Piece.KING << 1 : Piece.KING << 1 | 1 );	
-	int highestBit = BitUtils.getHighestBit( getBoard().getPositionOfPieces( _white ? (Piece.KING << 1) + 1 : Piece.KING << 1 ));
+	long opponentKingPosition = getBoard().getPositionOfPieces( _white ? IPiece.KING << 1 : IPiece.KING << 1 | 1 );	
+	int highestBit = BitUtils.getHighestBit( getBoard().getPositionOfPieces( _white ? (IPiece.KING << 1) + 1 : IPiece.KING << 1 ));
 	long restrictedSquares = _kingMask[ BitUtils.getHighestBit( opponentKingPosition)];
 	long curMoves = _kingMask[ highestBit] & (_emptySquares | _attackablePieces) & ~restrictedSquares;
-// @Testdisplay nur für den schwarzen König
+// @Testdisplay nur fï¿½r den schwarzen Kï¿½nig
 //	if (_white == false) {
 	// GameStatus work = getLastGameStatus();
 	//System.out.println(getLastPly() + " Restricted Squares: " + Long.toHexString(restrictedSquares) + " curMoves: " + Long.toHexString(curMoves));
@@ -733,36 +733,36 @@ public class PlyGenerator {
 	if( _white) {
 	    // If the king has not been moved and is not in check
 	    if( !getGame().hasBeenMoved( new PositionImpl( 4)) && !getAnalyzer().isInCheck( getBoard(), true)) {
-  		long rookPositions = getBoard().getPositionOfPieces( ( Piece.ROOK << 1) + 1);
+  		long rookPositions = getBoard().getPositionOfPieces( ( IPiece.ROOK << 1) + 1);
 		if( !getGame().hasBeenMoved( new PositionImpl( 0))
-			&& ( ( rookPositions & 0x1L) == 0x1L)  //steht da überhaupt ein Rook?
+			&& ( ( rookPositions & 0x1L) == 0x1L)  //steht da ï¿½berhaupt ein Rook?
 		    && ( ( _emptySquares & 0xEL) == 0xEL)
-		    && ( !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(3), false))), true)
+		    && ( !getAnalyzer().isInCheck( (IBitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(3), false))), true)
 	       /* && !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(2)))), true) */ )) {  // The addPly method checks for this check anyway, so it can be outcommented here...
 		    addCastlingPly( 4, true);
 		}
 		if( !getGame().hasBeenMoved( new PositionImpl( 7))
-			&& ( ( rookPositions & 0x80L) == 0x80L)  //steht da überhaupt ein Rook?
+			&& ( ( rookPositions & 0x80L) == 0x80L)  //steht da ï¿½berhaupt ein Rook?
 		    && ( ( _emptySquares & 0x60L) == 0x60L)
-		    && ( !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(5), false))), true)
+		    && ( !getAnalyzer().isInCheck( (IBitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(5), false))), true)
 			 /* && !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(4), new PositionImpl(6)))), true) */ )) {
 		    addCastlingPly( 4, false);
 		}
 	    }
 	} else {
 	    if( !getGame().hasBeenMoved( new PositionImpl( 60)) && !getAnalyzer().isInCheck( getBoard(), false)) {
-  		long rookPositions = getBoard().getPositionOfPieces( Piece.ROOK << 1);
+  		long rookPositions = getBoard().getPositionOfPieces( IPiece.ROOK << 1);
 		if( !getGame().hasBeenMoved( new PositionImpl( 56))
-		    && ( ( rookPositions & ( 0x1L << 56)) == ( 0x1L << 56))  //steht da überhaupt ein Rook?
+		    && ( ( rookPositions & ( 0x1L << 56)) == ( 0x1L << 56))  //steht da ï¿½berhaupt ein Rook?
 		    && ( ( _emptySquares & ( 0xEL << 56)) == ( 0xEL << 56))
-		    && ( !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(59), false))), false)
+		    && ( !getAnalyzer().isInCheck( (IBitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(59), false))), false)
 			 /* && !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(58)))), false) */ )) {
 		    addCastlingPly( 4 + 56, true);
 		}
 		if( !getGame().hasBeenMoved( new PositionImpl( 63))
-		    && ( ( rookPositions & ( 0x1L << 63 )) == ( 0x1L << 63))  //steht da überhaupt ein Rook?
+		    && ( ( rookPositions & ( 0x1L << 63 )) == ( 0x1L << 63))  //steht da ï¿½berhaupt ein Rook?
 		    && ( ( _emptySquares & (0x60L << 56 )) == (0x60L << 56))
-		    &&  ( !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(61), false))), false)
+		    &&  ( !getAnalyzer().isInCheck( (IBitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(61), false))), false)
 			  /* && !getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( new PlyImpl( new PositionImpl(60), new PositionImpl(62)))), false) */)) {
 		    addCastlingPly( 4 + 56, false);
 		}
@@ -852,7 +852,7 @@ public class PlyGenerator {
      *
      * @return The current board.
      */
-    final BitBoard getBoard() {
+    final IBitBoard getBoard() {
 	return _board;
     }
     
@@ -861,7 +861,7 @@ public class PlyGenerator {
      *
      * @param board The new board.
      */
-    final void setBoard(BitBoard board) {
+    final void setBoard(IBitBoard board) {
 	_board = board;
     }
 
@@ -879,7 +879,7 @@ public class PlyGenerator {
      *
      * @return The last ply.
      */
-    final Ply getLastPly() {
+    final IPly getLastPly() {
 	return getGame().getLastPly();
 	// return _lastPly;
     }
@@ -915,12 +915,12 @@ public class PlyGenerator {
      * @param ply The ply to add.
      * @param score The presort score of this ply.
      */
-    private final void addPly( Ply ply, short score) {
+    private final void addPly( IPly ply, short score) {
 
     	// @Testdisplay
 	//	System.out.println(_plyCounter + " " + ply + " " + score);
 	// Test if the own king is in check, before adding the ply
-	if( ! getAnalyzer().isInCheck( (BitBoard)(getBoard().getBoardAfterPly( ply)), _white)) {
+	if( ! getAnalyzer().isInCheck( (IBitBoard)(getBoard().getBoardAfterPly( ply)), _white)) {
 	    _currentPlies[ _plyCounter++] = new AnalyzedPlyImpl( ply, score);
 	}
     }
@@ -988,12 +988,12 @@ public class PlyGenerator {
      */
     private final void quickersort( int l, int r) {
 	int i = l, j = r;
-	AnalyzedPly x = _currentPlies[ ( l + r) / 2];
+	IAnalyzedPly x = _currentPlies[ ( l + r) / 2];
 	do {
 	    while( _currentPlies[i].getScore() > x.getScore()) { i++; }
 	    while( x.getScore() > _currentPlies[j].getScore()) { j--; }
 	    if( i <= j) {
-		AnalyzedPly w = _currentPlies[i]; 
+		IAnalyzedPly w = _currentPlies[i]; 
 		_currentPlies[i++] = _currentPlies[j]; 
 		_currentPlies[j--] = w;
 	    }
@@ -1027,7 +1027,7 @@ public class PlyGenerator {
 	do {
 	    for( int h = j; h >= i; h--) {
 		if( _currentPlies[h-1].getScore() < _currentPlies[h].getScore()) {
-		    AnalyzedPly w = _currentPlies[h-1];
+		    IAnalyzedPly w = _currentPlies[h-1];
 		    _currentPlies[h-1] = _currentPlies[h];
 		    _currentPlies[h] = w;
 		    k = h;
@@ -1036,7 +1036,7 @@ public class PlyGenerator {
 	    i = k + 1;
 	    for( int h = i; h <= j; h++) {
 		if( _currentPlies[h-1].getScore() < _currentPlies[h].getScore()) {
-		    AnalyzedPly w = _currentPlies[h-1];
+		    IAnalyzedPly w = _currentPlies[h-1];
 		    _currentPlies[h-1] = _currentPlies[h];
 		    _currentPlies[h] = w;
 		    k = h;

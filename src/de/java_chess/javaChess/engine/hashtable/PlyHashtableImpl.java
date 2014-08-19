@@ -24,7 +24,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 
 
 /**
@@ -150,7 +150,7 @@ public class PlyHashtableImpl implements PlyHashtable {
      * @param board The current board.
      * @param white true, if we want to ply with the white pieces.
      */
-    public final Ply getPly( Board board, boolean white) {
+    public final IPly getPly( Board board, boolean white) {
 	
 	// Compute the hashkey for the board and piece color and try to get a ply.
 	PlyHashtableEntry entry = (PlyHashtableEntry)( _hashtable.get( new Long( PlyHashtableEntryImpl.hashKey( board, white))));

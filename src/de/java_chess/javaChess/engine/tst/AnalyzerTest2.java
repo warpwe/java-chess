@@ -21,16 +21,16 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -45,7 +45,7 @@ public class AnalyzerTest2 extends TestCase {
     /**
      * A game for the generator.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * The analyzed board.
@@ -111,14 +111,14 @@ public class AnalyzerTest2 extends TestCase {
 	doPly( new PlyImpl( new PositionImpl( "e7"), new PositionImpl( "e5"), false));
 
 	// Do the 1st analysis
-	short score1 = _analyzer.analyze( (BitBoard)_board, true);
+	short score1 = _analyzer.analyze( (IBitBoard)_board, true);
 
 	prepareTest();
 
 	doPly( new PlyImpl( new PositionImpl( "g8"), new PositionImpl( "h6"), false));
 
 	// Analyze the board after the ply
-	short score2 = _analyzer.analyze( (BitBoard)_board, false);
+	short score2 = _analyzer.analyze( (IBitBoard)_board, false);
 
 	// Check if the 2nd board is better for white.
 	assertTrue( "Analyzer prefers pawn move", score2 > score1);
@@ -146,7 +146,7 @@ public class AnalyzerTest2 extends TestCase {
      *
      * @param ply The ply to perform.
      */
-    private final void doPly( Ply ply) {
+    private final void doPly( IPly ply) {
 	_game.doPly( ply);
 	_board.doPly( ply);
     }

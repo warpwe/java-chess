@@ -22,8 +22,8 @@ package de.java_chess.javaChess.engine.hashtable;
 
 import java.util.Random;
 
-import de.java_chess.javaChess.bitboard.BitBoard;
-import de.java_chess.javaChess.piece.Piece;
+import de.java_chess.javaChess.bitboard.IBitBoard;
+import de.java_chess.javaChess.piece.IPiece;
 import de.java_chess.javaChess.position.Position;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -96,7 +96,7 @@ public class ZobristKeyImpl {
      *
      * @return The zobrist key.
      */
-    public long computeKey( BitBoard board, boolean white) {
+    public long computeKey( IBitBoard board, boolean white) {
 
 	long val = 0L;
 
@@ -110,7 +110,7 @@ public class ZobristKeyImpl {
 	for( int square = 0; square < 64; square++) {
 	    if( ( emptySquareMask & 1) == 0) {  // If there's a piece on the square
 		curPosition.setSquareIndex( square);
-		Piece p = board.getPiece( curPosition);
+		IPiece p = board.getPiece( curPosition);
 		
 		if( p != null) {
 		    val ^= _factors[p.getColor()][p.getType() - 1][square];

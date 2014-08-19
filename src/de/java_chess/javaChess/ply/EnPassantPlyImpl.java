@@ -27,7 +27,7 @@ import de.java_chess.javaChess.position.Position;
  * This class is for pawn plies, that attack a pawn
  * en passant.
  */
-public class EnPassantPlyImpl extends PlyImpl implements EnPassantPly {
+public class EnPassantPlyImpl extends PlyImpl implements IEnPassantPly {
 
     // Instance variables
 

@@ -21,17 +21,17 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.BitBoard;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
 import de.java_chess.javaChess.board.Board;
 import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.Game;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
 import de.java_chess.javaChess.ply.CastlingPlyImpl;
-import de.java_chess.javaChess.ply.Ply;
+import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;
 
@@ -47,7 +47,7 @@ public class PlyGeneratorTest17 extends TestCase {
     /**
      * A game for the generator.
      */
-    Game _game;
+    IGame _game;
 
     /**
      * The analyzed board.
@@ -139,7 +139,7 @@ public class PlyGeneratorTest17 extends TestCase {
 	_board = new BitBoardImpl();
 
 	// Create the ply generator.
-	_plyGenerator = new PlyGenerator( _game, (BitBoard)_board, new PlyHashtableImpl( 100));
+	_plyGenerator = new PlyGenerator( _game, (IBitBoard)_board, new PlyHashtableImpl( 100));
 
 	// And the analyzer.
 	_analyzer = new BitBoardAnalyzerImpl( _game, _plyGenerator);
@@ -167,7 +167,7 @@ public class PlyGeneratorTest17 extends TestCase {
     public void testgenerator() {
 
 	// Get the plies for white
-	Ply [] plies = _plyGenerator.getPliesForColor( true);
+	IPly [] plies = _plyGenerator.getPliesForColor( true);
 
 	// Check potential plys.
 	boolean containsMove = false;
@@ -186,7 +186,7 @@ public class PlyGeneratorTest17 extends TestCase {
      *
      * @param ply The ply to perform.
      */
-    private void doPly( Ply ply) {
+    private void doPly( IPly ply) {
 	_game.doPly( ply);
 	_board.doPly( ply);
     }
