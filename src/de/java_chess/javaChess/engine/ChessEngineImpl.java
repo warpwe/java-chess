@@ -821,7 +821,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
 				return curAlpha;
 			} else {
 				for (int i = 0; i < plies.length; i++) {
-					if (isSearchStop() && (getSearchDepth() > 1)) { // If the
+					if (isSearchStop() && (getSearchDepth() > 3)) { // If the
 																	// search
 																	// time is
 																	// over and

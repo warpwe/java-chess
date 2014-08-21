@@ -21,15 +21,15 @@
 package de.java_chess.javaChess.engine.tst;
 
 import junit.framework.TestCase;
-import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.bitboard.BitBoardImpl;
+import de.java_chess.javaChess.bitboard.IBitBoard;
 import de.java_chess.javaChess.board.Board;
-import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.BitBoardAnalyzerImpl;
+import de.java_chess.javaChess.engine.IBitBoardAnalyzer;
 import de.java_chess.javaChess.engine.PlyGenerator;
 import de.java_chess.javaChess.engine.hashtable.PlyHashtableImpl;
-import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.game.GameImpl;
+import de.java_chess.javaChess.game.IGame;
 import de.java_chess.javaChess.ply.IPly;
 import de.java_chess.javaChess.ply.PlyImpl;
 import de.java_chess.javaChess.position.PositionImpl;

@@ -36,16 +36,24 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
   // opening stage and in the middle game.
   static final short[][] _pawnPositionalValue = {
       {
-          0, 0, 0, 0, 0, 0, 0,
-          0, // Opening stage
-          0, 0, 3, 6, 6, 8, 8, 8, 0, 0, 2, 7, 7, 6, 6, 0, 0, 0, 1, 8, 8, 4, 4, 0, 0, 0, 8, 10, 10,
-          2, 2, 0, 0, 0, 8, 12, 12, 0, 0, 0, 0, 0, 9, 13, 13, 0, 0, 0, 0, 0, 8, 8, 8, 0, 0, 0
+          0, 0, 0,  0,  0, 0, 0, 0, // Opening stage
+          0, 0, 3,  6,  6, 8, 8, 8,
+          0, 0, 2,  7,  7, 6, 6, 0,
+          0, 0, 1,  8,  8, 4, 4, 0,
+          0, 0, 8, 10, 10, 2, 2, 0,
+          0, 0, 8, 12, 12, 0, 0, 0,
+          0, 0, 9, 13, 13, 0, 0, 0,
+          0, 0, 8,  8,  8, 0, 0, 0
       },
       {
-          0, 0, 0, 0, 0, 0, 0,
-          0, // Middle game
-          0, 0, 0, 0, 0, 0, 0, 0, 2, 3, 4, 5, 5, 4, 3, 2, 3, 4, 5, 6, 6, 5, 4, 3, 4, 5, 6, 7, 7, 6,
-          5, 4, 5, 6, 7, 8, 8, 7, 6, 5, 6, 7, 8, 9, 9, 8, 8, 7, 7, 8, 9, 10, 10, 9, 8, 7
+          0, 0, 0,  0, 0, 0, 0, 0, // Middle game
+          0, 0, 0,  0, 0, 0, 0, 0,
+          2, 3, 4,  5, 5, 4, 3, 2,
+          3, 4, 5,  6, 6, 5, 4, 3,
+          4, 5, 6,  7, 7, 6, 5, 4,
+          5, 6, 7,  8, 8, 7, 6, 5,
+          6, 7, 8,  9, 9, 8, 8, 7,
+          7, 8, 9, 10, 10, 9, 8, 7
       }
   };
 
@@ -324,7 +332,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
         pos.setSquareIndex(i);
         IPiece p = getBoard().getPiece(pos);
         // wenn emptySquareMask stimmt haben wir sicher eine Figur und
-        // m�ssen das nicht mehr pr�fen
+        // muessen das nicht mehr pruefen
         // if( p != null) {
         short mValue = 0;
         short pValue = 0;
