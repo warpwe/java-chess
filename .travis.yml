@@ -1,4 +1,6 @@
 language: java
+install: wget -c http://central.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.jar -O ./lib/log4j.jar
+install: wget -c http://central.maven.org/maven2/junit/junit/4.11/junit-4.11.jar -O ./lib/junit.jar
 jdk:
   - oraclejdk7
   - openjdk7
