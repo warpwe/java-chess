@@ -471,8 +471,8 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     // System.out.println("P:" + positionalValue + " M:" + materialValue +
     // " C:" + checkValue);
 
-    logger.info(getGame().toString() + " C:" + checkValue + " M:" + 9 * materialValue + " P:"
-        + positionalValue);
+    // logger.info(getGame().toString() + " C:" + checkValue + " M:" + 9 * materialValue + " P:"
+    //    + positionalValue);
 
     return (short) (positionalValue + (short) 9 * materialValue + checkValue);
   }
