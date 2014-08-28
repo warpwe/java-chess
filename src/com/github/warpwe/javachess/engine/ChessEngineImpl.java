@@ -597,18 +597,18 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
    * Start a complete Minimax-Alpha-Beta search. This is the search level 1, where we have to store
    * the analyzed ply, so it gets a special method.
    * 
-   * @param white
+   * @param isWhite
    *          Flag to indicate, if white is about to move.
    * @throws InterruptedException
    *           if the search was interrupted because of a timeout.
    */
-  public final IAnalyzedPly startMinimaxAlphaBeta(boolean white) throws InterruptedException {
+  public final IAnalyzedPly startMinimaxAlphaBeta(boolean isWhite) throws InterruptedException {
     short curAlpha = IAnalyzedPly.MIN_SCORE;
     short curBeta = IAnalyzedPly.MAX_SCORE;
     int bestPlyIndex = -1;
 
-    IPly[] plies = plyGenerator.getPliesForColor((IBitBoard) getBoard(), white);
-    if (white) {
+    IPly[] plies = plyGenerator.getPliesForColor((IBitBoard) getBoard(), isWhite);
+    if (isWhite) {
       for (int i = 0; i < plies.length; i++) {
         if (isSearchStop() && (getSearchDepth() > 1)) { // If the search
           // time is over
@@ -742,6 +742,8 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
       short curAlpha = alpha;
       short curBeta = beta;
       int bestPlyIndex = -1;
+      
+      // TODO score implementieren
 
       IPly[] plies = plyGenerator.getPliesForColor((IBitBoard) board, white);
       if (white) {

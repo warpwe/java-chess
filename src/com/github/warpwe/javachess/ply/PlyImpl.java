@@ -19,118 +19,134 @@ import com.github.warpwe.javachess.position.Position;
  */
 public class PlyImpl implements IPly {
 
-  // Instance variables
+	// Instance variables
 
-  /**
-   * The source of the ply.
-   */
-  protected Position source;
+	/**
+	 * The source of the ply.
+	 */
+	protected Position source;
 
-  /**
-   * The destination of the ply.
-   */
-  protected Position destination;
+	/**
+	 * The destination of the ply.
+	 */
+	protected Position destination;
 
-  /**
-   * Flag to indicate, if this ply captures another piece.
-   */
-  protected boolean capture;
+	/**
+	 * Flag to indicate, if this ply captures another piece.
+	 */
+	protected boolean capture;
 
-  // Constructors
+	private short score = 0;
 
-  /**
-   * Construct a new ply from a source and a destination.
-   *
-   * @param source
-   *          The source of the ply.
-   * @param destination
-   *          The destination of the ply.
-   * @param capture
-   *          Flag to indicate, if this ply captures another piece.
-   */
-  public PlyImpl(Position source, Position destination, boolean capture) {
-    setSource(source);
-    setDestination(destination);
-    setCapture(capture);
-  }
+	// Constructors
 
-  // Methods
+	/**
+	 * Construct a new ply from a source and a destination.
+	 * 
+	 * @param source
+	 *            The source of the ply.
+	 * @param destination
+	 *            The destination of the ply.
+	 * @param capture
+	 *            Flag to indicate, if this ply captures another piece.
+	 */
+	public PlyImpl(Position source, Position destination, boolean capture) {
+		setSource(source);
+		setDestination(destination);
+		setCapture(capture);
+	}
 
-  /**
-   * Get the source of the ply.
-   *
-   * @return The source of the piece.
-   */
-  public final Position getSource() {
-    return source;
-  }
+	// Methods
 
-  /**
-   * Set the source of the ply.
-   *
-   * @param The
-   *          new source of the piece.
-   */
-  public final void setSource(Position source) {
-    this.source = source;
-  }
+	/**
+	 * Get the source of the ply.
+	 * 
+	 * @return The source of the piece.
+	 */
+	public final Position getSource() {
+		return source;
+	}
 
-  /**
-   * Get the destination of the piece.
-   *
-   * @return The destination of the piece.
-   */
-  public final Position getDestination() {
-    return destination;
-  }
+	/**
+	 * Set the source of the ply.
+	 * 
+	 * @param The
+	 *            new source of the piece.
+	 */
+	public final void setSource(Position source) {
+		this.source = source;
+	}
 
-  /**
-   * Set the destination of the piece.
-   *
-   * @param destination
-   *          The new destination of the piece.
-   */
-  public final void setDestination(Position destination) {
-    this.destination = destination;
-  }
+	/**
+	 * Get the destination of the piece.
+	 * 
+	 * @return The destination of the piece.
+	 */
+	public final Position getDestination() {
+		return destination;
+	}
 
-  /**
-   * Check, if this ply captures another piece.
-   *
-   * @return true, if another piece is captured with this ply.
-   */
-  public final boolean isCapture() {
-    return capture;
-  }
+	/**
+	 * Set the destination of the piece.
+	 * 
+	 * @param destination
+	 *            The new destination of the piece.
+	 */
+	public final void setDestination(Position destination) {
+		this.destination = destination;
+	}
 
-  /**
-   * Set a flag, if this ply captures another piece.
-   *
-   * @param capture
-   *          Flag to indicate if this ply captures another piece.
-   */
-  public final void setCapture(boolean capture) {
-    this.capture = capture;
-  }
+	/**
+	 * Check, if this ply captures another piece.
+	 * 
+	 * @return true, if another piece is captured with this ply.
+	 */
+	public final boolean isCapture() {
+		return capture;
+	}
 
-  /**
-   * Convert the ply into something human readable. It's not exactly chess notation, since we don't
-   * have a board to check, if it is a move or a attack.
-   *
-   * @return The ply as a string.
-   */
-  public String toString() {
-    return getSource().toSquareName() + "-" + getDestination().toSquareName();
-  }
+	/**
+	 * Set a flag, if this ply captures another piece.
+	 * 
+	 * @param capture
+	 *            Flag to indicate if this ply captures another piece.
+	 */
+	public final void setCapture(boolean capture) {
+		this.capture = capture;
+	}
 
-  /**
-   * Test, if this ply is equal to another ply.
-   *
-   * @param ply
-   *          The other ply.
-   * @return true, if the 2 plies are equal.
-   */
-  public final boolean equals(IPly ply) {
-    return ply.getSource().equals(getSource()) && ply.getDestination().equals(getDestination());
-  }
+	/**
+	 * Convert the ply into something human readable. It's not exactly chess
+	 * notation, since we don't have a board to check, if it is a move or a
+	 * attack.
+	 * 
+	 * @return The ply as a string.
+	 */
+	public String toString() {
+		return getSource().toSquareName() + "-"
+				+ getDestination().toSquareName();
+	}
+
+	/**
+	 * Test, if this ply is equal to another ply.
+	 * 
+	 * @param ply
+	 *            The other ply.
+	 * @return true, if the 2 plies are equal.
+	 */
+	public final boolean equals(IPly ply) {
+		return ply.getSource().equals(getSource())
+				&& ply.getDestination().equals(getDestination());
+	}
+
+	@Override
+	public void setScore(short score) {
+		this.score = score;
+
+	}
+
+	@Override
+	public short getScore() {
+		return score;
+	}
 }

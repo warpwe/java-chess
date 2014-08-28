@@ -356,7 +356,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
         pos.setSquareIndex(i);
         IPiece p = getBoard().getPiece(pos);
         // wenn emptySquareMask stimmt haben wir sicher eine Figur und
-        // mï¿½ssen das nicht mehr prï¿½fen
+        // muessen das nicht mehr pruefen
         // if( p != null) {
         short mValue = 0;
         short pValue = 0;
@@ -470,7 +470,9 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     // System.out.print(getGame().toString());
     // System.out.println("P:" + positionalValue + " M:" + materialValue +
     // " C:" + checkValue);
-
+// C = wert für ein Schach
+// M = Materielle Bewertung
+// P = Positionelle Bewertung
     // logger.info(getGame().toString() + " C:" + checkValue + " M:" + 9 * materialValue + " P:"
     //    + positionalValue);
 
