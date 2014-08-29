@@ -24,7 +24,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import com.github.warpwe.javachess.GameState;
 import com.github.warpwe.javachess.bitboard.IBitBoard;
@@ -202,7 +203,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
    * The list of listeners
    */
   private List<IEngineStatusListener> listeners;
-  static final Logger logger = Logger.getLogger("logfile");
+  static org.apache.logging.log4j.Logger logger = LogManager.getLogger("logfile");
 
   // Constructors
 

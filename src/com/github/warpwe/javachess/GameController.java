@@ -5,7 +5,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 import com.github.warpwe.javachess.board.Board;
 import com.github.warpwe.javachess.dialogs.TransformationDialog;
@@ -88,7 +89,8 @@ public class GameController implements ActionListener {
   /**
    * The log4j instance.
    */
-  static final Logger logger = Logger.getLogger("logfile");
+  // static final Logger logger = Logger.getLogger("logfile");
+  static org.apache.logging.log4j.Logger logger = LogManager.getLogger("logfile");
 
   // Constructors
 

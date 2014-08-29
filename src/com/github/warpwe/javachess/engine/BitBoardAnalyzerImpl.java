@@ -12,7 +12,7 @@
 
 package com.github.warpwe.javachess.engine;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import com.github.warpwe.javachess.bitboard.IBitBoard;
 import com.github.warpwe.javachess.game.IGame;
@@ -34,7 +34,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
   /** A minus for pieces that block the development of the own pawns. */
   static final short pawnBlocker = 10;
 
-  static final Logger logger = Logger.getLogger("logfile");
+  static org.apache.logging.log4j.Logger logger = LogManager.getLogger("logfile");
 
   /** The position value of pawns on all the squares, in the opening stage and in the middle game. */
   static final short[][] pawnPositionalValue = {
@@ -470,7 +470,7 @@ public class BitBoardAnalyzerImpl implements IBitBoardAnalyzer {
     // System.out.print(getGame().toString());
     // System.out.println("P:" + positionalValue + " M:" + materialValue +
     // " C:" + checkValue);
-// C = wert für ein Schach
+// C = wert fï¿½r ein Schach
 // M = Materielle Bewertung
 // P = Positionelle Bewertung
     // logger.info(getGame().toString() + " C:" + checkValue + " M:" + 9 * materialValue + " P:"
