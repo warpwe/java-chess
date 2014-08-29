@@ -24,6 +24,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
+import org.apache.log4j.Logger;
+
 import com.github.warpwe.javachess.GameState;
 import com.github.warpwe.javachess.bitboard.IBitBoard;
 import com.github.warpwe.javachess.board.Board;
@@ -200,6 +202,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
    * The list of listeners
    */
   private List<IEngineStatusListener> listeners;
+  static final Logger logger = Logger.getLogger("logfile");
 
   // Constructors
 
@@ -607,25 +610,23 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
     short curBeta = IAnalyzedPly.MAX_SCORE;
     int bestPlyIndex = -1;
 
+    // todo lookup for scoring
+	logger.info("bestPlyIndex");
+
     IPly[] plies = plyGenerator.getPliesForColor((IBitBoard) getBoard(), isWhite);
     if (isWhite) {
       for (int i = 0; i < plies.length; i++) {
-        if (isSearchStop() && (getSearchDepth() > 1)) { // If the search
-          // time is over
-          // and at least
-          // depth 1 was
-          // completed
-          throw new InterruptedException("Search interrupted at depth " + getSearchDepth()); // abort
-          // the
-          // search.
+        if (isSearchStop() && (getSearchDepth() > 1)) { 
+          // If the search time is over and at least
+          // depth 1 was completed
+          throw new InterruptedException("Search interrupted at depth " + getSearchDepth());
+          // abort the search.
         }
         getGame().doPly(plies[i]);
         short val;
         try {
           val = minimaxAlphaBeta(plies[i], getBoard().getBoardAfterPly(plies[i]), false, 1,
               curAlpha, curBeta);
-          // @Testdisplay
-          // System.out.println(i + " " + plies[i] + " " + val);
         }
         catch (InterruptedException ie) {
           getGame().undoLastPly(); // Undo the last move
@@ -642,9 +643,9 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
         }
         getGame().undoLastPly();
       }
-
+      
       if (bestPlyIndex != -1) {
-
+    	      
         // Since this is the best ply so far, we store it in the
         // hashtable. This makes sense,
         // since the minimax algorithm is started several times, before
@@ -661,14 +662,11 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
     }
     else {
       for (int i = 0; i < plies.length; i++) {
-        if (isSearchStop() && (getSearchDepth() > 1)) { // If the search
-          // time is over
-          // and at least
-          // depth 1 was
-          // completed
-          throw new InterruptedException("Search interrupted at depth " + getSearchDepth()); // abort
-          // the
-          // search.
+        if (isSearchStop() && (getSearchDepth() > 1)) {
+          // If the search time is over and at least
+          // depth 1 was completed
+          throw new InterruptedException("Search interrupted at depth " + getSearchDepth());
+          // abort the search.
         }
         getGame().doPly(plies[i]);
         short val;

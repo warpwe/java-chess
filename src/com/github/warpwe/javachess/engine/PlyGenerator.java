@@ -261,10 +261,10 @@ public class PlyGenerator {
         }
       }
     }
-
+/*
     // Presort the plies
     presortPlies();
-
+*/
     // Convert the plies to a array of the correct size
     IPly[] plies = new IPly[_plyCounter];
     int destIndex = 0;
