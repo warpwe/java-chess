@@ -101,7 +101,7 @@ public class PlyHashtableImpl implements PlyHashtable {
   /**
    * Try to push a new entry into the hashtable.
    *
-   * @param entry
+   * @param ply
    *          The new entry, that the hashtable might store.
    */
   public final void pushEntry(PlyHashtableEntry ply) {

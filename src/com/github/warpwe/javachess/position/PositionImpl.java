@@ -141,7 +141,7 @@ public class PositionImpl implements Position {
   /**
    * Test if 2 positions are equal.
    *
-   * @param Another
+   * @param pos Another
    *          position.
    * @return true, if the positions are equal, false otherwise.
    */

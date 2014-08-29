@@ -32,7 +32,7 @@ import com.github.warpwe.javachess.renderer2d.PieceRenderer;
  * Copyright: Copyright (c) 2003 The Java-Chess team <info@java-chess.de> Organisation: The
  * Java-Chess team
  * 
- * @author: Faber
+ * @author Faber
  * @version 1.0
  */
 
@@ -40,15 +40,10 @@ public class PieceSelectionPanel extends JPanel implements IPiece, ActionListene
 
   private SetupBoardDialog setupBoardDialog;
   private GridBagLayout gblPieces = new GridBagLayout();
-
   private JButton[][] pieceButton;
-
   private ChessSet set = new ChessSet(this);
-
   private ImageIcon[][] pieceIcon;
-
   private JLabel jlSelectedPiece = new JLabel("Selected piece:");
-
   private JLabel jlSelectedPieceImage = new JLabel();
 
   /**
@@ -178,7 +173,7 @@ public class PieceSelectionPanel extends JPanel implements IPiece, ActionListene
   /**
    * Set the color of this piece.
    *
-   * @param The
+   * @param color The
    *          new color of this piece.
    */
   public void setColor(byte color) {

@@ -47,7 +47,7 @@ import com.github.warpwe.javachess.util.StringTextDocument;
  * Copyright: Copyright (c) 2003 The Java-Chess team <info@java-chess.de> Organisation: The
  * Java-Chess team
  * 
- * @author: Faber
+ * @author Faber
  * @version 1.0
  */
 

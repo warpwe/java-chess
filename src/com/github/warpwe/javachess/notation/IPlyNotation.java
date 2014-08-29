@@ -38,7 +38,7 @@ public interface IPlyNotation {
   /**
    * Set the piece, that is moved with this ply.
    *
-   * @param ply
+   * @param piece
    *          The moved ply.
    */
   void setPiece(IPiece piece);
@@ -90,7 +90,7 @@ public interface IPlyNotation {
   /**
    * Set the flag for a checkmate.
    *
-   * @param check
+   * @param checkMate
    *          , true if the oppenent is checkmate.
    */
   void setCheckMate(boolean checkMate);

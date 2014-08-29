@@ -48,7 +48,7 @@ public class PieceRenderer extends BufferedImage {
    *          The type of the piece.
    * @param set
    *          The set of chess pieces.
-   * @c The parent component.
+   * @param c The parent component.
    */
   public PieceRenderer(byte color, byte piece, ChessSet set, Component c) {
     super(40, 40, BufferedImage.TYPE_INT_ARGB);

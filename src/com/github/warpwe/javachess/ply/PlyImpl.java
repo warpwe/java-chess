@@ -70,7 +70,7 @@ public class PlyImpl implements IPly {
 	/**
 	 * Set the source of the ply.
 	 * 
-	 * @param The
+	 * @param source The
 	 *            new source of the piece.
 	 */
 	public final void setSource(Position source) {

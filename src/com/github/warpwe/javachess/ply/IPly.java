@@ -68,17 +68,20 @@ public interface IPly {
    * @return true, if the 2 plies are equal. False otherwise.
    */
   boolean equals(IPly ply);
-  
+
   /**
-   * score is build from check, material and positional value
-   * @param score
+   * Set the score of a ply. The score is the sum of the check-value, material-value and
+   * positional-value.
+   * 
+   * @param score the score of a ply.
    */
   public void setScore(short score);
-  
+
   /**
+   * This getter returns the score of a ply.
    * 
-   * @return
+   * @return the score of a ply.
    */
   public short getScore();
- 
+
 }

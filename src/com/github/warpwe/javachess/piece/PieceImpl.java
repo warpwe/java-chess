@@ -82,7 +82,7 @@ public class PieceImpl implements IPiece {
   /**
    * Set the color of this piece.
    *
-   * @param The
+   * @param color The
    *          new color of this piece.
    */
   public final void setColor(byte color) {

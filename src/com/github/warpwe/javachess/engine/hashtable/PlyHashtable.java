@@ -52,7 +52,7 @@ public interface PlyHashtable {
   /**
    * Try to push a new entry into the hashtable.
    *
-   * @param entry
+   * @param ply
    *          The new entry, that the hashtable might store.
    */
   void pushEntry(PlyHashtableEntry ply);

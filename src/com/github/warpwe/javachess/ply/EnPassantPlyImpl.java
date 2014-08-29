@@ -57,7 +57,7 @@ public class EnPassantPlyImpl extends PlyImpl implements IEnPassantPly {
   /**
    * Set the position of the attacked pawn.
    *
-   * @param position
+   * @param attackedPosition
    *          The position of the attacked pawn.
    */
   public final void setAttackedPosition(Position attackedPosition) {

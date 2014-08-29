@@ -272,7 +272,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
   /**
    * Set the current game.
    * 
-   * @param The
+   * @param game The 
    *          current game.
    */
   public final void setGame(IGame game) {
@@ -375,7 +375,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
   /**
    * Set the maximum search time.
    * 
-   * @param depth
+   * @param time
    *          The new search time.
    */
   public final void setMaximumSearchTime(int time) {
@@ -385,8 +385,7 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
   /**
    * Get the color of this engine.
    * 
-   * @param white
-   *          true, if the engine operates with the white pieces.
+   * @return true, if the engine operates with the white pieces.
    */
   public boolean isWhite() {
     return white;

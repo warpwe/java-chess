@@ -60,8 +60,6 @@ public class BoardConsistency1 extends TestCase {
 
   /**
    * Run the actual test(s).
-   * 
-   * @return
    */
   public void runTest() {
     testboardConsistency();

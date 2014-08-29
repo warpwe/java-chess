@@ -28,7 +28,7 @@ public interface IGameNotation {
    *
    * @param moveIndex
    *          The index of the move.
-   * @param boolean white Flag to indicate if the color is white.
+   * @param white Flag to indicate if the color is white.
    * @return The notation for a given move and color.
    */
   String getMove(int moveIndex, boolean white);

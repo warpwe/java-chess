@@ -33,7 +33,7 @@ import javax.swing.JTextField;
  * Organisation: The Java-Chess team
  * </p>
  * 
- * @author: Faber
+ * @author Faber
  * @version 1.0
  */
 

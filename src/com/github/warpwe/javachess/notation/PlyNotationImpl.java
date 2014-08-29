@@ -135,7 +135,7 @@ public class PlyNotationImpl implements IPlyNotation {
   /**
    * Set the piece, that is moved with this ply.
    *
-   * @param ply
+   * @param piece
    *          The moved ply.
    */
   public final void setPiece(IPiece piece) {
@@ -210,8 +210,8 @@ public class PlyNotationImpl implements IPlyNotation {
   /**
    * Set the flag for a checkmate.
    *
-   * @param check
-   *          , true if the oppenent is checkmate.
+   * @param checkMate
+   *          true if the oppenent is checkmate.
    */
   public final void setCheckMate(boolean checkMate) {
     this.checkMate = checkMate;

@@ -38,7 +38,7 @@ public interface IChessEngine {
   /**
    * Set the current game.
    *
-   * @param The
+   * @param game The
    *          current game.
    */
   void setGame(IGame game);
@@ -61,8 +61,7 @@ public interface IChessEngine {
   /**
    * Get the color of this engine.
    *
-   * @param white
-   *          true, if the engine operates with the white pieces.
+   * @return true, if the engine operates with the white pieces.
    */
   boolean isWhite();
 

@@ -184,7 +184,7 @@ public class PlyGenerator {
   /**
    * Set the current game.
    *
-   * @param The
+   * @param game The
    *          current game.
    */
   public final void setGame(IGame game) {
@@ -214,8 +214,6 @@ public class PlyGenerator {
    * Get the plies for a given board and color. Passing the last ply is suboptimal, since it's
    * slower than accessing the game history.
    *
-   * @param lastPly
-   *          The ply, that lead to the given board.
    * @param board
    *          The board with the game position.
    * @param white

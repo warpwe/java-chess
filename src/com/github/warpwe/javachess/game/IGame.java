@@ -31,7 +31,7 @@ public interface IGame {
   /**
    * Add a new ply to the game.
    *
-   * @ply The new ply.
+   * @param ply The new ply.
    */
   void doPly(IPly ply);
 

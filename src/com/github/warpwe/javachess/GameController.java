@@ -131,7 +131,7 @@ public class GameController implements ActionListener {
   /**
    * Set the current game.
    *
-   * @param The
+   * @param game The
    *          current game.
    */
   public final void setGame(IGame game) {

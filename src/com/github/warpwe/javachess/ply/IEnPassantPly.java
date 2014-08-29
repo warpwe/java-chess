@@ -31,7 +31,7 @@ public interface IEnPassantPly extends IPly {
   /**
    * Set the position of the attacked pawn.
    *
-   * @param position
+   * @param attackedPosition
    *          The position of the attacked pawn.
    */
   void setAttackedPosition(Position attackedPosition);
