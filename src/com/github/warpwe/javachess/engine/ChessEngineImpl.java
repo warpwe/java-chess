@@ -610,9 +610,6 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
     short curBeta = IAnalyzedPly.MAX_SCORE;
     int bestPlyIndex = -1;
 
-    // todo lookup for scoring
-	logger.info("bestPlyIndex");
-
     IPly[] plies = plyGenerator.getPliesForColor((IBitBoard) getBoard(), isWhite);
     if (isWhite) {
       for (int i = 0; i < plies.length; i++) {
@@ -675,7 +672,10 @@ public class ChessEngineImpl implements IChessEngine, Runnable, ActionListener {
               curAlpha, curBeta);
           // @Testdisplay
           // System.out.println(i + " " + plies[i] + " " + val + " " +
-          // curAlpha + " " + curBeta);
+          // todo lookup for scoring
+          // find ply-score
+          logger.info("score: " + val + " Ply: " + plies[i]);
+      // curAlpha + " " + curBeta);
         }
         catch (InterruptedException ie) {
           getGame().undoLastPly(); // Undo the last move

@@ -12,6 +12,8 @@
 
 package com.github.warpwe.javachess.engine;
 
+import org.apache.logging.log4j.LogManager;
+
 import com.github.warpwe.javachess.bitboard.IBitBoard;
 import com.github.warpwe.javachess.engine.hashtable.PlyHashtable;
 import com.github.warpwe.javachess.game.IGame;
@@ -32,6 +34,7 @@ import com.github.warpwe.javachess.position.PositionImpl;
 public class PlyGenerator {
 
   // Static variables
+  static org.apache.logging.log4j.Logger logger = LogManager.getLogger("logfile");
 
   // The scores for presorted plies.
   private short HASHTABLE_PLY = 101;
@@ -267,7 +270,10 @@ public class PlyGenerator {
     IPly[] plies = new IPly[_plyCounter];
     int destIndex = 0;
     for (int sourceIndex = (_plyCounter - 1); sourceIndex >= 0;) {
+      // find ply-score
+      logger.info(" Ply: " + _currentPlies[sourceIndex].getPly() + " " + _currentPlies[sourceIndex].getScore() );
       plies[destIndex++] = _currentPlies[sourceIndex--].getPly();
+
     }
 
     return plies;
