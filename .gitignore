@@ -18,3 +18,5 @@ fileappender.log
 # Eclipse Project File
 .project
 /.travis.yml~
+/.gradle/
+/.settings/
