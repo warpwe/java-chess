@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
 
 import com.github.warpwe.javachess.board.Board;
 import com.github.warpwe.javachess.dialogs.TransformationDialog;
