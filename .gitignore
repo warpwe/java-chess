@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### Eclipse ###
 *.pydevproject
 .metadata
@@ -37,3 +38,8 @@ gradle-app.setting
 *.jar
 *.war
 *.ear
+=======
+/bin/
+/build/
+/fileappender.log
+>>>>>>> ad217524a3ad4f52866741e07581df2d392a3d5b
