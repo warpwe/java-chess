@@ -1,2 +1,39 @@
-/bin/
-/build/
+### Eclipse ###
+*.pydevproject
+.metadata
+.gradle
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.project
+.projectwe
+.classpath
+.settings/
+*.launch
+
+### Java ###
+.class
+
+### Log4j ###
+fileappender.log
+
+### Linux ###
+*~
+
+### Gradle ###
+.gradle
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+### Libraries ###
+*.jar
+*.war
+*.ear
